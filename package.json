@@ -6,19 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint ./src/**/*.{js,ts,tsx,jsx} --fix",
     "preview": "vite preview",
     "clear:all": "rimraf node_modules pnpm-lock.yaml",
-    "lint-staged": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run lint",
-      "prettier --write"
-    ],
-    "*.{mjs,cjs,json}": [
-      "prettier --write"
-    ]
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
   },
   "dependencies": {
     "react": "18.2.0",
@@ -31,8 +22,12 @@
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-jsdoc": "^50.6.17",
+    "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^15.15.0",
+    "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.32.1",
