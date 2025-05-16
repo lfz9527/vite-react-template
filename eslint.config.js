@@ -1,11 +1,12 @@
 import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
-import pluginReact from 'eslint-plugin-react'
 import { defineConfig } from 'eslint/config'
 import jsdoc from 'eslint-plugin-jsdoc'
 import pluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
-
+import pluginReact from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import reactRefresh from 'eslint-plugin-react-refresh'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
 const files = ['**/*.{js,mjs,cjs,ts,jsx,tsx}']
 
 export default defineConfig([
@@ -32,6 +33,15 @@ export default defineConfig([
       'react/jsx-runtime': 'react-jsx-runtime', // 使用新 JSX 转换
     },
   },
+  /**
+   * 为 React Refresh 提供了一系列 ESLint 规则，
+   * 会检查你的代码中是否存在与 React Refresh 不兼容的代码模式，
+   * 例如在函数组件中使用了不支持的语法或 API。如果发现这些问题，
+   * 会发出警告或错误。
+   */
+  reactRefresh.configs.recommended,
+  // react hook 的规则
+  reactHooks.configs['recommended-latest'],
   // TypeScript 支持
   ...tseslint.configs.recommended,
   // React 支持（flat config）
