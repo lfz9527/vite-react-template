@@ -1,13 +1,12 @@
+import { defineConfig } from 'vite'
 import path from 'path'
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 
 const resolve = (paths: string) => {
   return path.resolve(__dirname, paths)
 }
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   // 配置路径别名
@@ -15,9 +14,15 @@ export default defineConfig({
     alias: {
       '@': resolve('src'),
       '@/assets': resolve('src/assets'),
+      '@/service': resolve('src/service'),
+      '@/pages': resolve('src/pages'),
       '@/components': resolve('src/components'),
       '@/styles': resolve('src/styles'),
       '@/utils': resolve('src/utils'),
+      '@/hooks': resolve('src/hooks'),
+      '@/router': resolve('src/router'),
+      '@/store': resolve('src/store'),
+      '@/types': resolve('src/types'),
     },
   },
   build: {
@@ -43,6 +48,17 @@ export default defineConfig({
           // 默认输出目录
           return 'assets/[name]-[hash][extname]'
         },
+      },
+    },
+  },
+  server: {
+    // host 为0.0.0.0 时，可以被外部访问，允许 localhost 和 ip 同时进行访问
+    host: '0.0.0.0',
+    port: 5173,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true,
       },
     },
   },
