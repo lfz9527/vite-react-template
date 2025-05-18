@@ -85,6 +85,10 @@ export default defineConfig([
     rules: {
       // 关闭对 TypeScript 注释的限制，允许使用 '// @ts-ignore' 等注释
       '@typescript-eslint/ban-ts-comment': 'off',
+      // 关闭对 any 类型的限制，但在开发中尽量避免使用
+      '@typescript-eslint/no-explicit-any': 'off',
+      // 允许自定义命名空间
+      '@typescript-eslint/no-namespace': 'off',
     },
   },
   // react 的配置
@@ -117,6 +121,8 @@ export default defineConfig([
       quotes: ['off'],
       // 不用分号
       semi: ['off'],
+      // 允许使用行内样式
+      'react/jsx-no-inline-styles': 'off',
       // 关闭此规则，因为已用新 JSX transform
       'react/react-in-jsx-scope': 'off',
     },

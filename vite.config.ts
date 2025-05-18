@@ -33,7 +33,7 @@ export default defineConfig({
         chunkFileNames: 'js/[name]-[hash].js',
         entryFileNames: 'js/[name]-[hash].js',
         // 自定义 CSS 文件的输出目录
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         assetFileNames: (info: Record<string, any>) => {
           const infoType = info.name ? info.name.split('.').pop() : ''
           if (infoType && /^(gif|jpe?g|png|svg)$/.test(infoType)) {
@@ -57,7 +57,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:8090',
         changeOrigin: true,
       },
     },
