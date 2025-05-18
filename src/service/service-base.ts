@@ -1,3 +1,5 @@
+// 服务基类
+
 import { axiosRequest } from './axois-request'
 import type { AxiosRequestConfig } from 'axios'
 
@@ -22,3 +24,4 @@ class ServiceBase {
 }
 
 export const apiService = new ServiceBase()
+export const request = apiService.request
