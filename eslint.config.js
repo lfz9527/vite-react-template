@@ -7,6 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
+
 const files = ['**/*.{js,mjs,cjs,ts,jsx,tsx}']
 
 export default defineConfig([
@@ -14,44 +15,20 @@ export default defineConfig([
     // 指定要忽略的文件或目录
     ignores: ['node_modules', 'dist', 'public'],
   },
-  // 基础 JavaScript 规则
   {
     files,
-    ...js.configs.recommended,
-  },
-  // 浏览器环境全局变量
-  {
-    files,
+    // 浏览器环境全局变量
     languageOptions: { globals: { ...globals.browser } },
-  },
-  {
-    files,
-    settings: {
-      react: {
-        version: 'detect', // 自动检测项目中的 React 版本
-      },
-      'react/jsx-runtime': 'react-jsx-runtime', // 使用新 JSX 转换
+    rules: {
+      // 基础JavaScript配置
+      ...js.configs.recommended.rules,
     },
   },
-  /**
-   * 为 React Refresh 提供了一系列 ESLint 规则，
-   * 会检查你的代码中是否存在与 React Refresh 不兼容的代码模式，
-   * 例如在函数组件中使用了不支持的语法或 API。如果发现这些问题，
-   * 会发出警告或错误。
-   */
-  reactRefresh.configs.recommended,
-  // react hook 的规则
-  reactHooks.configs['recommended-latest'],
-  // TypeScript 支持
-  ...tseslint.configs.recommended,
-  // React 支持（flat config）
-  pluginReact.configs.flat.recommended,
-
   // jsdoc 支持
   {
     files,
     plugins: {
-      jsdoc: jsdoc, // ✅ 正确格式：键名 + 插件对象
+      jsdoc,
     },
     rules: {
       /**
@@ -101,6 +78,37 @@ export default defineConfig([
       'jsdoc/check-tag-names': 'warn',
     },
   },
+  // TypeScript 支持
+  ...tseslint.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx}'],
+    rules: {
+      // 关闭对 TypeScript 注释的限制，允许使用 '// @ts-ignore' 等注释
+      '@typescript-eslint/ban-ts-comment': 'off',
+    },
+  },
+  // react 的配置
+  {
+    files: ['**/*.{jsx,tsx}'],
+    settings: {
+      react: {
+        version: 'detect', // 自动检测项目中的 React 版本
+      },
+      'react/jsx-runtime': 'react-jsx-runtime', // 使用新 JSX 转换
+    },
+  },
+  // React 支持（flat config）
+  pluginReact.configs.flat.recommended,
+  /**
+   * 为 React Refresh 提供了一系列 ESLint 规则，
+   * 会检查你的代码中是否存在与 React Refresh 不兼容的代码模式，
+   * 例如在函数组件中使用了不支持的语法或 API。如果发现这些问题，
+   * 会发出警告或错误。
+   */
+  reactRefresh.configs.recommended,
+  // react hook 的规则
+  reactHooks.configs['recommended-latest'],
+
   // 自定义规则
   {
     files,
