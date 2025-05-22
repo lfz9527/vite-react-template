@@ -117,14 +117,17 @@ export default defineConfig([
   {
     files,
     rules: {
+      indent: 'off', // 关闭 ESLint 原生缩进检查
       // 单引号
-      quotes: ['off'],
+      quotes: 'off',
       // 不用分号
-      semi: ['off'],
+      semi: 'off',
       // 允许使用行内样式
       'react/jsx-no-inline-styles': 'off',
       // 关闭此规则，因为已用新 JSX transform
       'react/react-in-jsx-scope': 'off',
+      // 关闭ts缩进规则
+      '@typescript-eslint/indent': 'off',
     },
   },
   // Prettier 支持

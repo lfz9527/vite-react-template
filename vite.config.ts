@@ -1,22 +1,23 @@
 import { defineConfig, loadEnv } from 'vite'
 import path from 'path'
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import createVitePlugin from './vite/plugin'
 
 const resolve = (paths: string) => {
   return path.resolve(__dirname, paths)
 }
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   // .env 文件配置
   const envConf = loadEnv(mode, process.cwd())
+  // 是否为构建
+  const isBuild = command === 'build'
 
   return {
     // 开发服务器选项 https://cn.vitejs.dev/config/server-options
     server: {
       open: true,
-      // host 为0.0.0.0 时，可以被外部访问，允许 localhost 和 ip 同时进行访问
-      host: '0.0.0.0',
+      // host 为 true 时，可以被外部访问，允许 localhost 和 ip 同时进行访问
+      host: true,
       port: 5173,
       proxy: {
         '/api': {
@@ -25,7 +26,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    plugins: [react(), tailwindcss()],
+    plugins: createVitePlugin(mode, isBuild),
     // 配置路径别名
     resolve: {
       alias: {

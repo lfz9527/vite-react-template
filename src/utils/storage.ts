@@ -1,8 +1,6 @@
-// 本地存储工具类
-
 type StorageType = 'localStorage' | 'sessionStorage'
 
-interface StorageItem {
+export interface StorageItem {
   // 数据
   data: any
   // 过期时间
@@ -11,39 +9,65 @@ interface StorageItem {
   createTime: number
 }
 
+export interface IStorage {
+  set(
+    key: string,
+    item: Global.PartialExcept<StorageItem, 'data'>
+  ): Promise<void>
+  get(key: string): Promise<Required<StorageItem> | null>
+  remove(key: string): Promise<void>
+}
+
 /**
- *
+ * 本地存储工具类
  */
-class Storage {
+class Storage implements IStorage {
   private storage: globalThis.Storage
 
   constructor(type: StorageType) {
     this.storage = window[type]
   }
 
-  public async setItem(key: string, item: StorageItem) {
+  /**
+   * 设置本地存储
+   * @param key 键
+   * @param item 值
+   */
+  public async set(
+    key: string,
+    item: Global.PartialExcept<StorageItem, 'data'>
+  ) {
     const data = {
       expire: 0,
       createTime: Date.now(),
-      ...item.data,
+      ...item,
     }
-    await this.storage.setItem(key, JSON.stringify(data))
+    this.storage.setItem(key, JSON.stringify(data))
   }
 
-  public async getItem(key: string): Promise<StorageItem | null> {
-    const item = await this.storage.getItem(key)
+  /**
+   * 获取本地存储
+   * @param key 键
+   * @returns 值
+   */
+  public async get(key: string) {
+    const item = this.storage.getItem(key)
     if (!item) return null
     const { data, expire, createTime } = JSON.parse(item)
     // 过期时间小于当前时间，则删除
-    if (expire >= 0 && Date.now() - createTime > expire) {
-      await this.storage.removeItem(key)
+    if (expire > 0 && Date.now() - createTime > expire) {
+      this.remove(key)
       return null
     }
     return { data, expire, createTime }
   }
 
-  public async removeItem(key: string) {
-    await this.storage.removeItem(key)
+  /**
+   * 删除本地存储
+   * @param key 键
+   */
+  public async remove(key: string) {
+    this.storage.removeItem(key)
   }
 }
 

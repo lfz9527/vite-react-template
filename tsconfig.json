@@ -1,47 +1,7 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    // 是否跳过 .d.ts 文件的类型检查
-    "skipLibCheck": true,
-    // 强制文件名一致
-    "forceConsistentCasingInFileNames": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    // 强制将所有文件视为模块, 默认是 force, 这里设置为 auto
-    "moduleDetection": "auto",
-    "noEmit": true,
-    // 启用了新 JSX 转换（无需显式导入 React）
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-
-    "paths": {
-      "@/*": ["src/*"],
-      "@/assets/*": ["src/assets/*"],
-      "@/components/*": ["src/components/*"],
-      "@/styles/*": ["src/styles/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/router/*": ["src/router/*"],
-      "@/store/*": ["src/store/*"],
-      "@/types/*": ["src/types/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/service/*": ["src/service/*"]
-    }
-  },
-  "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ],
+  "files": []
 }
