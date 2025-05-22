@@ -8,10 +8,6 @@ import { compression } from 'vite-plugin-compression2'
 const createVitePlugin = (mode: string, isBuild = false) => {
   const viteEnv = parseLoadedEnv(loadEnv(mode, process.cwd()))
 
-  if (isBuild) {
-    console.log('env 文件夹配置', viteEnv)
-  }
-
   const vitePlugins: PluginOption | PluginOption[] = [
     react(),
     tailwindcss(),
