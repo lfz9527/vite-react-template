@@ -9,6 +9,7 @@
   "cSpell.words": [
     "VITE"
   ],
+  "json.schemas": [],
   "eslint.validate": [
     "javascript",
     "javascriptreact",
