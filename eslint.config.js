@@ -98,7 +98,6 @@ export default defineConfig([
       react: {
         version: 'detect', // 自动检测项目中的 React 版本
       },
-      'react/jsx-runtime': 'react-jsx-runtime', // 使用新 JSX 转换
     },
   },
   // React 支持（flat config）
@@ -122,12 +121,16 @@ export default defineConfig([
       quotes: 'off',
       // 不用分号
       semi: 'off',
+      // 使用新 JSX 转换
+      'react/jsx-runtime': 'react-jsx-runtime',
       // 允许使用行内样式
       'react/jsx-no-inline-styles': 'off',
       // 关闭此规则，因为已用新 JSX transform
       'react/react-in-jsx-scope': 'off',
       // 关闭ts缩进规则
       '@typescript-eslint/indent': 'off',
+      // 关闭prop-types
+      'react/prop-types': 'off',
     },
   },
   // Prettier 支持

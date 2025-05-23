@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { envParse, parseLoadedEnv } from 'vite-plugin-env-parse'
 import { compression } from 'vite-plugin-compression2'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
 
 const createVitePlugin = (mode: string, isBuild = false) => {
   const viteEnv = parseLoadedEnv(loadEnv(mode, process.cwd()))
@@ -15,6 +17,12 @@ const createVitePlugin = (mode: string, isBuild = false) => {
     // 环境变量
     envParse({
       dtsPath: 'src/types/env.d.ts',
+    }),
+
+    // svg 图标
+    createSvgIconsPlugin({
+      iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+      symbolId: 'icon-[name]',
     }),
 
     // 压缩gzip格式
