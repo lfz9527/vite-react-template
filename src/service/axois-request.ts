@@ -34,7 +34,9 @@ class AxiosRequest {
     this.RequestInterceptor()
     this.ResponseInterceptor()
   }
-  // 请求拦截器
+  /**
+   * 请求拦截器
+   */
   private RequestInterceptor() {
     this.instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
@@ -51,11 +53,14 @@ class AxiosRequest {
     )
   }
 
-  // 响应拦截器
+    /**
+   * 响应拦截器
+   */
   private ResponseInterceptor() {
     this.instance.interceptors.response.use(
       <T>(response: AxiosResponse<API.ResponseData<T>>) => {
         const { status, data } = response
+        const { code } = data
         try {
           if (status === 200) {
             this.handleBusinessError(data)
@@ -64,13 +69,25 @@ class AxiosRequest {
             throw new Error(codeMsgMap[status] || defaultCodeMsg)
           }
         } catch (error) {
-          return Promise.reject(error)
+          return Promise.reject({
+            // 业务错误码
+            code,
+            // 系统错误码
+            status,
+            // 业务错误信息
+            errorMsg: error,
+          })
         }
       },
       (error: AxiosError) => {
         const { status } = error
         const systemErrorMessage = status ? codeMsgMap[status] : defaultCodeMsg
-        return Promise.reject(new Error(systemErrorMessage))
+        return Promise.reject({
+          // 系统错误码
+          status,
+          // 系统错误信息
+          errorMsg: systemErrorMessage,
+        })
       }
     )
   }
