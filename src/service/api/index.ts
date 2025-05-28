@@ -1,4 +1,4 @@
-import { apiService } from '../service-base'
+import { apiService } from '@service/service-base'
 
 export const getApi = () => apiService.get<API.ResponseData>('/api/get')
 export const getApi2 = () => apiService.get<API.ResponseData>('/api/get2')

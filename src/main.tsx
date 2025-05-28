@@ -4,11 +4,13 @@ import App from './App'
 import '@/styles/tailwindcss.css'
 import 'virtual:svg-icons-register'
 import { ConfigProvider } from 'antd'
-
+import { MessageProvider } from '@context'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ConfigProvider>
-      <App />
+      <MessageProvider>
+        <App />
+      </MessageProvider>
     </ConfigProvider>
   </StrictMode>
 )

@@ -1,6 +1,6 @@
 // 日志中间件
 import { StateCreator, StoreMutatorIdentifier } from 'zustand'
-import { isProduction } from '@/utils'
+import { isProduction } from '@utils'
 /**
  * 定义一个类型 Logger，它接受一个状态创建函数 f，以及可选的名称 name，并返回一个新的状态创建函数。
  * @template T 状态的类型。

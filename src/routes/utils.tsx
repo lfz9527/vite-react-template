@@ -1,6 +1,6 @@
 import { RouteObject } from 'react-router'
 import { ComponentType, LazyExoticComponent } from 'react'
-import LazyImport from '@/components/LazyImport'
+import LazyImport from '@components/LazyImport'
 
 export type LazyComponent = LazyExoticComponent<ComponentType>
 

@@ -1,4 +1,4 @@
-interface Props {
+export interface SvgIconProps {
   prefix?: string
   style?: React.CSSProperties
   className?: string
@@ -9,7 +9,7 @@ interface Props {
   color?: string
 }
 
-const SvgIcon: React.FC<Props> = (props) => {
+const SvgIcon: React.FC<SvgIconProps> = (props) => {
   const {
     className,
     name,
