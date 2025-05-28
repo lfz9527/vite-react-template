@@ -6,7 +6,7 @@ const Admin = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      messageApi.success('调试全局Api')
+      messageApi.success('调试全局MessageApi')
     }, 1000)
   }, [])
 
