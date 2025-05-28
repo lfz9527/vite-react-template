@@ -1,16 +1,31 @@
 import { RouteObject } from 'react-router'
-import { ComponentType, LazyExoticComponent } from 'react'
+import { ComponentType, LazyExoticComponent,ReactElement } from 'react'
 import LazyImport from '@components/LazyImport'
 
 export type LazyComponent = LazyExoticComponent<ComponentType>
+
+export type RouteElement = ReactElement | null
+
 
 export type RouteConfig = Omit<
   RouteObject,
   'element' | 'children' | 'Component' | 'lazy'
 > & {
-  element: LazyComponent
+  element: LazyComponent | RouteElement
   middlewares?: LazyComponent[]
   children?: RouteConfig[]
+}
+
+// 判断是否是懒加载组件
+const isLazyComponent = (
+  element: LazyComponent | RouteElement
+): element is LazyComponent => {
+  return (
+    typeof element === 'object' &&
+    element !== null &&
+    '$$typeof' in element &&
+    (element as any)['$$typeof'] === Symbol.for('react.lazy')
+  )
 }
 
 export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
@@ -23,12 +38,12 @@ export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
     }
 
     // 递归构建子路由
-    if (children) {
+    if (children && children.length > 0) {
       routeObject.children = buildRoutes(children)
     }
 
     // 异步加载组件
-    routeObject.element = <LazyImport lazy={element} />
+    routeObject.element = isLazyComponent(element) ? <LazyImport lazy={element} /> : element
 
     // 中间件处理
     if (middlewares && middlewares.length > 0) {
