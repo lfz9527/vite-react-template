@@ -42,7 +42,7 @@ export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
       routeObject.children = buildRoutes(children)
     }
 
-    // 异步加载组件
+    // 加载组件
     routeObject.element = isLazyComponent(element) ? <LazyImport lazy={element} /> : element
 
     // 中间件处理
