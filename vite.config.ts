@@ -31,17 +31,6 @@ export default defineConfig(({ mode, command }) => {
     resolve: {
       alias: {
         '@': resolve('src'),
-        '@assets': resolve('src/assets'),
-        '@service': resolve('src/service'),
-        '@pages': resolve('src/pages'),
-        '@components': resolve('src/components'),
-        '@styles': resolve('src/styles'),
-        '@utils': resolve('src/utils'),
-        '@hooks': resolve('src/hooks'),
-        '@router': resolve('src/router'),
-        '@store': resolve('src/store'),
-        '@types': resolve('src/types'),
-        '@context': resolve('src/context'),
       },
     },
     // 构建选项 https://cn.vitejs.dev/config/build-options

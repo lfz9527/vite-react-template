@@ -30,17 +30,6 @@
 
     "paths": {
       "@*": ["src/*"],
-      "@assets/*": ["src/assets/*"],
-      "@components/*": ["src/components/*"],
-      "@styles/*": ["src/styles/*"],
-      "@utils/*": ["src/utils/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@router/*": ["src/router/*"],
-      "@store/*": ["src/store/*"],
-      "@types/*": ["src/types/*"],
-      "@pages/*": ["src/pages/*"],
-      "@service/*": ["src/service/*"],
-      "@context/*": ["src/context/*"]
     }
   },
   "exclude": ["node_modules", "dist"],
