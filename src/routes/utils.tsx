@@ -1,11 +1,10 @@
 import { RouteObject } from 'react-router'
-import { ComponentType, LazyExoticComponent,ReactElement } from 'react'
-import LazyImport from '@components/LazyImport'
+import { ComponentType, LazyExoticComponent, ReactElement } from 'react'
+import LazyImport from '@/components/LazyImport'
 
 export type LazyComponent = LazyExoticComponent<ComponentType>
 
 export type RouteElement = ReactElement | null
-
 
 export type RouteConfig = Omit<
   RouteObject,
@@ -43,7 +42,11 @@ export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
     }
 
     // 加载组件
-    routeObject.element = isLazyComponent(element) ? <LazyImport lazy={element} /> : element
+    routeObject.element = isLazyComponent(element) ? (
+      <LazyImport lazy={element} />
+    ) : (
+      element
+    )
 
     // 中间件处理
     if (middlewares && middlewares.length > 0) {

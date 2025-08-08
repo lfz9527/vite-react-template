@@ -1,7 +1,7 @@
 {
-  "workbench.iconTheme": "material-icon-theme",
+  "workbench.iconTheme": "vs-seti",
   "editor.linkedEditing": true,
-  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "workbench.colorTheme": "Bearded Theme Arc",
   "editor.fontVariations": false,
   "editor.fontLigatures": true,
   "editor.fontFamily": "JetBrains Mono,Consolas, 'Courier New', monospace",
