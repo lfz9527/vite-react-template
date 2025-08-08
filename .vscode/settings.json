@@ -6,7 +6,7 @@
   "editor.fontLigatures": true,
   "editor.fontFamily": "JetBrains Mono,Consolas, 'Courier New', monospace",
   "security.workspace.trust.untrustedFiles": "open",
-  "editor.fontSize": 15,
+  "editor.fontSize": 14,
   "git.autofetch": true,
   "git.confirmSync": false,
   // 保存自动修复
