@@ -18,10 +18,10 @@ export default defineConfig(({ mode, command }) => {
       open: true,
       // host 为 true 时，可以被外部访问，允许 localhost 和 ip 同时进行访问
       host: true,
-      port: 5173,
+      port: 9529,
       proxy: {
         '/api': {
-          target: 'http://localhost:8090',
+          target: 'http://192.168.31.163:8003',
           changeOrigin: true,
         },
       },

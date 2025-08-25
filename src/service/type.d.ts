@@ -34,3 +34,9 @@ export interface RetryConfig {
   retryDelay?: number // 重试延迟（毫秒）
   retryCondition?: (error: AxiosError) => boolean // 重试条件
 }
+
+// 错误回调
+export interface ErrorCallback {
+  onError?: (error: ResponseError) => void
+  onAuthorized?: (error: ResponseError) => void
+}

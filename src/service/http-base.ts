@@ -65,7 +65,6 @@ class HttpBase {
     const defaultErrorInterceptor = (error: AxiosError): Promise<any> => {
       /* 在这里写请求错误拦截器的默认业务逻辑 */
       // 示例: 处理请求前的错误
-      // console.error('请求配置错误:', error);
       return Promise.reject(error)
     }
 
@@ -88,7 +87,7 @@ class HttpBase {
       const requestKey = this.getRequestKey(response.config)
       if (requestKey) this.abortControllers.delete(requestKey)
       /* 在这里写响应拦截器的默认业务逻辑 */
-      return response.data
+      return response
     }
 
     // 默认响应错误拦截器
@@ -104,7 +103,11 @@ class HttpBase {
       // 处理请求被取消的情况
       if (Axios.isCancel(error)) {
         console.warn('请求已被取消:', error.message)
-        return Promise.reject(new Error('请求已被取消'))
+        status = 499
+        return Promise.reject({
+          code: status,
+          message: commonErrors[status],
+        })
       }
       // 网络错误处理
       if (!(error as AxiosError).response) {
@@ -112,16 +115,26 @@ class HttpBase {
           (error as any).code === 'ECONNABORTED' ||
           (error as AxiosError).message?.includes('timeout')
         ) {
-          return Promise.reject(new Error('请求超时，请稍后重试'))
+          status = 408
+          return Promise.reject({
+            code: status,
+            message: commonErrors[status],
+          })
         }
-        return Promise.reject(new Error('网络错误，请检查网络连接'))
+        status = 503
+        return Promise.reject({
+          code: status,
+          message: commonErrors[status],
+        })
       }
-
       // HTTP状态码错误处理
       status = (error as AxiosError).response?.status ?? 502
 
       const message = commonErrors[status] || `请求失败（状态码：${status}）`
-      return Promise.reject(new Error(message))
+      return Promise.reject({
+        code: status,
+        message,
+      })
     }
 
     // 优先使用自定义拦截器，否则使用默认拦截器
@@ -269,7 +282,6 @@ class HttpBase {
 
     let lastError: any
     const key = requestKey ?? this.getRequestKey({ ...restConfig, method, url })
-
     for (let attempt = 0; attempt <= retryConfig.retries; attempt++) {
       try {
         // 重试前清除旧的AbortController（避免重试请求被误取消）

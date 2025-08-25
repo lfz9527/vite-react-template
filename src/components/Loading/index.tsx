@@ -1,8 +1,15 @@
 import { Spin } from 'antd'
+import cs from 'classnames'
 
-const Loading = () => {
+interface LoadingProps {
+  className?: string
+}
+
+const Loading = (props: LoadingProps) => {
+  const { className } = props
+  const classNames = cs('flex items-center justify-center h-screen', className)
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className={classNames}>
       <Spin />
     </div>
   )

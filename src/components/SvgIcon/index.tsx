@@ -1,3 +1,6 @@
+import cs from 'classnames'
+import { useMemo } from 'react'
+
 export interface SvgIconProps {
   prefix?: string
   style?: React.CSSProperties
@@ -9,7 +12,7 @@ export interface SvgIconProps {
   color?: string
 }
 
-const SvgIcon: React.FC<SvgIconProps> = (props) => {
+const SvgIcon = (props: SvgIconProps) => {
   const {
     className,
     name,
@@ -20,10 +23,13 @@ const SvgIcon: React.FC<SvgIconProps> = (props) => {
     height = size,
     color = '#000',
   } = props
+
+  const classNames = useMemo(() => cs(className), [className])
+
   const symbolId = `#${prefix}-${name}`
   return (
     <svg
-      className={className}
+      className={classNames}
       aria-hidden="true"
       style={{
         width,
