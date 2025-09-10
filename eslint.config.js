@@ -12,24 +12,49 @@ const files = ['**/*.{js,mjs,cjs,ts,jsx,tsx}']
 
 export default defineConfig([
   {
-    // 指定要忽略的文件或目录
-    ignores: ['node_modules', 'dist', 'public'],
+    ignores: ['node_modules', 'dist', 'public', 'output'],
   },
+  // 基础 JS 配置
   {
     files,
-    // 浏览器环境全局变量
-    languageOptions: { globals: { ...globals.browser } },
+    languageOptions: { globals: globals.browser },
+    rules: js.configs.recommended.rules,
+  },
+  // TypeScript 支持
+  ...tseslint.configs.recommended,
+  {
+    files: ['**/*.{ts,tsx}'],
     rules: {
-      // 基础JavaScript配置
-      ...js.configs.recommended.rules,
+      // 关闭对 TypeScript 注释的限制，允许使用 '// @ts-ignore' 等注释
+      '@typescript-eslint/ban-ts-comment': 'off',
+      // 关闭对 any 类型的限制，但在开发中尽量避免使用
+      '@typescript-eslint/no-explicit-any': 'off',
+      // 允许自定义命名空间
+      '@typescript-eslint/no-namespace': 'off',
+      // 未使用的变量只需要警告
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
+
+  pluginReact.configs.flat.recommended,
+  reactRefresh.configs.recommended,
+  reactHooks.configs['recommended-latest'],
+  // react 的配置
+  {
+    files: ['**/*.{jsx,tsx,ts}'],
+    rules: {
+      // 关闭prop-types
+      'react/prop-types': 'off',
+      // 开启React 作用域
+      'react/react-in-jsx-scope': 'off',
+      // 未使用的变量只需要警告
+    },
+  },
+
   // jsdoc 支持
   {
     files,
-    plugins: {
-      jsdoc,
-    },
+    plugins: { jsdoc },
     rules: {
       /**
        * 检查 @param 标签中的参数名是否与函数定义一致。
@@ -76,61 +101,6 @@ export default defineConfig([
        * 例如：不允许使用拼错的标签名如 @params，只能使用 @param。
        */
       'jsdoc/check-tag-names': 'warn',
-    },
-  },
-  // TypeScript 支持
-  ...tseslint.configs.recommended,
-  {
-    files: ['**/*.{ts,tsx}'],
-    rules: {
-      // 关闭对 TypeScript 注释的限制，允许使用 '// @ts-ignore' 等注释
-      '@typescript-eslint/ban-ts-comment': 'off',
-      // 关闭对 any 类型的限制，但在开发中尽量避免使用
-      '@typescript-eslint/no-explicit-any': 'off',
-      // 允许自定义命名空间
-      '@typescript-eslint/no-namespace': 'off',
-    },
-  },
-  // react 的配置
-  {
-    files: ['**/*.{jsx,tsx}'],
-    settings: {
-      react: {
-        version: 'detect', // 自动检测项目中的 React 版本
-      },
-    },
-  },
-  // React 支持（flat config）
-  pluginReact.configs.flat.recommended,
-  /**
-   * 为 React Refresh 提供了一系列 ESLint 规则，
-   * 会检查你的代码中是否存在与 React Refresh 不兼容的代码模式，
-   * 例如在函数组件中使用了不支持的语法或 API。如果发现这些问题，
-   * 会发出警告或错误。
-   */
-  reactRefresh.configs.recommended,
-  // react hook 的规则
-  reactHooks.configs['recommended-latest'],
-
-  // 自定义规则
-  {
-    files,
-    rules: {
-      indent: 'off', // 关闭 ESLint 原生缩进检查
-      // 单引号
-      quotes: 'off',
-      // 不用分号
-      semi: 'off',
-      // 使用新 JSX 转换
-      'react/jsx-runtime': 'react-jsx-runtime',
-      // 允许使用行内样式
-      'react/jsx-no-inline-styles': 'off',
-      // 关闭此规则，因为已用新 JSX transform
-      'react/react-in-jsx-scope': 'off',
-      // 关闭ts缩进规则
-      '@typescript-eslint/indent': 'off',
-      // 关闭prop-types
-      'react/prop-types': 'off',
     },
   },
   // Prettier 支持

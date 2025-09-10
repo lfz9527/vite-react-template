@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:test": "tsc -b && vite build --mode testing",
     "preview": "vite preview",
     "clear:all": "rimraf node_modules pnpm-lock.yaml",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
