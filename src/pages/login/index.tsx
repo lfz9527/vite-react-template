@@ -1,29 +1,12 @@
-import { Button } from 'antd'
-import { getVipGetVipPackageByOpen } from '@/service/api'
+import './index.css'
 
 const Login = () => {
   return (
-    <>
-      <div
-        style={{
-          background: 'red',
-        }}
-      >
-        Login
+    <div className="login-bg-gradient h-full w-full">
+      <div className="flex-center h-full">
+        <div className="rounded-2xl bg-white w-[520px] h-[400px] shadow-[0px_4px_20px_0px_rgba(34,34,34,0.1)]"></div>
       </div>
-      <Button
-        onClick={async () => {
-          try {
-            const { data } = await getVipGetVipPackageByOpen()
-            console.log(111, data)
-          } catch (error) {
-            console.log('最外层的捕获', error)
-          }
-        }}
-      >
-        测试封装的fetch请求
-      </Button>
-    </>
+    </div>
   )
 }
 

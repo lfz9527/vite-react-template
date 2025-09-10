@@ -1,0 +1,7 @@
+.login-bg-gradient {
+  background: linear-gradient(
+    180deg,
+    rgba(146, 121, 220, 1),
+    rgba(123, 125, 219, 1) 100%
+  );
+}
