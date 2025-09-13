@@ -61,14 +61,15 @@
   "stylelint.validate": ["css", "less", "sass", "scss"],
   //  =================== 单词记录 =======================
   "cSpell.words": [
+    "analyz",
+    "axois",
     "commitlint",
+    "commitlintrc",
     "nprogress",
     "Sider",
     "stylelint",
     "stylelintrc",
-    "webpackbar",
-    "analyz",
-    "axois",
-    "VITE"
+    "VITE",
+    "webpackbar"
   ]
 }
