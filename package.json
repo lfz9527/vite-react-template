@@ -9,8 +9,9 @@
     "build:test": "tsc -b && vite build --mode testing",
     "preview": "vite preview",
     "clear:all": "rimraf node_modules pnpm-lock.yaml",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix"
+    "lint": "npm run lint-eslint && npm run lint-stylelint",
+    "lint-eslint": "eslint -c eslint.config.js --ext .ts,.tsx,.js src",
+    "lint-stylelint": "stylelint --config stylelint.config.js src/**/*.{less,css,scss}"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
@@ -40,6 +41,10 @@
     "globals": "^15.15.0",
     "prettier": "^3.5.3",
     "rimraf": "^6.0.1",
+    "stylelint-config-prettier": "^9.0.5",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
+    "stylelint-prettier": "^5.0.3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.32.1",
     "vite": "^6.2.0",

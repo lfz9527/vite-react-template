@@ -59,6 +59,7 @@
   "less.validate": false,
   "scss.validate": false,
   "stylelint.validate": ["css", "less", "sass", "scss"],
+  //  =================== 单词记录 =======================
   "cSpell.words": [
     "commitlint",
     "nprogress",

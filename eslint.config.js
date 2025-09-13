@@ -17,7 +17,11 @@ export default defineConfig([
   // 基础 JS 配置
   {
     files,
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: {
+        ...globals.node, // 👈 开启 Node.js 全局变量（含 module, require 等）
+      },
+    },
     rules: js.configs.recommended.rules,
   },
   // TypeScript 支持
