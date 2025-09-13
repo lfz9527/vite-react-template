@@ -16,7 +16,6 @@ export default defineConfig(({ mode, command }) => {
     // 开发服务器选项 https://cn.vitejs.dev/config/server-options
     server: {
       open: true,
-      // host 为 true 时，可以被外部访问，允许 localhost 和 ip 同时进行访问
       host: true,
       port: 9529,
       proxy: {
@@ -27,7 +26,6 @@ export default defineConfig(({ mode, command }) => {
       },
     },
     plugins: createVitePlugin(mode, isBuild),
-    // 配置路径别名
     resolve: {
       alias: {
         '@': resolve('src'),
@@ -39,11 +37,8 @@ export default defineConfig(({ mode, command }) => {
       // 自定义资源的输出目录
       rollupOptions: {
         output: {
-          // 自定义 JavaScript 文件的输出目录
           chunkFileNames: 'js/[name]-[hash].js',
           entryFileNames: 'js/[name]-[hash].js',
-          // 自定义 CSS 文件的输出目录
-
           assetFileNames: (info: Record<string, any>) => {
             const infoType = info.name ? info.name.split('.').pop() : ''
             if (infoType && /^(gif|jpe?g|png|svg)$/.test(infoType)) {
@@ -55,7 +50,6 @@ export default defineConfig(({ mode, command }) => {
             if (infoType === 'ttf') {
               return 'font/[name]-[hash][extname]'
             }
-            // 默认输出目录
             return 'assets/[name]-[hash][extname]'
           },
         },
