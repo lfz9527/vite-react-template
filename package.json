@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "clear:all": "rimraf node_modules pnpm-lock.yaml",
     "prepare": "husky install",
+    "commit": "git-cz",
     "lint": "npm run lint-eslint && npm run lint-stylelint",
     "lint-eslint": "eslint -c eslint.config.js --ext .ts,.tsx,.js src",
     "lint-stylelint": "stylelint --config stylelint.config.js src/**/*.{less,css,scss}"
@@ -31,6 +32,17 @@
       "prettier --write"
     ]
   },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable",
+      "config": {
+        "path": "./.cz-config.cjs"
+      }
+    },
+    "cz-customizable": {
+      "config": "./.cz-config.cjs"
+    }
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
@@ -44,13 +56,15 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.26.0",
     "@types/node": "^22.14.0",
     "@types/qs": "^6.14.0",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "commitizen": "^4.3.1",
+    "commitlint-config-cz": "^0.13.3",
+    "cz-customizable": "^7.5.1",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.0",
