@@ -35,7 +35,7 @@ export default defineConfig([
       // 允许自定义命名空间
       '@typescript-eslint/no-namespace': 'off',
       // 未使用的变量只需要警告
-      '@typescript-eslint/no-unused-vars': 'warn',
+      // '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
 
