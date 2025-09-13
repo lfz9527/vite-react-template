@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import '@/styles/tailwindcss.css'
 import 'virtual:svg-icons-register'
-import { ConfigProvider } from 'antd'
-import { MessageProvider } from '@/context'
 
 const root = createRoot(document.getElementById('root')!, {
   // 捕获 ErrorBoundary 内部的错误
@@ -25,10 +23,6 @@ const root = createRoot(document.getElementById('root')!, {
 
 root.render(
   <StrictMode>
-    <ConfigProvider>
-      <MessageProvider>
-        <App />
-      </MessageProvider>
-    </ConfigProvider>
+    <App />
   </StrictMode>
 )

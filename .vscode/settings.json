@@ -72,7 +72,6 @@
   "scss.validate": false,
   "stylelint.validate": ["css", "less", "sass", "scss"],
   "cSpell.words": [
-    "antd",
     "commitlint",
     "nprogress",
     "Sider",
