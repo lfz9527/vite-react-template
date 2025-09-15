@@ -23,6 +23,8 @@ export type RouteConfig = Omit<
   Component?: SupportedComponent // 兼容React Router的Component属性
   middlewares?: (LazyComponent | RegularComponent)[]
   children?: RouteConfig[]
+  // 环境过滤配置
+  env?: string[] // 指定路由在哪些环境下可用，未配置则不受影响
 }
 
 // 判断是否是懒加载组件
@@ -78,44 +80,68 @@ const componentToElement = (
   return null
 }
 
+// 获取当前环境
+const getCurrentEnvironment = (): string => {
+  // 优先使用 VITE_APP_ENV，其次使用 mode，最后使用 NODE_ENV
+  return import.meta.env.MODE || import.meta.env.NODE_ENV || 'development'
+}
+
+// 检查路由是否应该在当前环境下可用
+const shouldIncludeRoute = (route: RouteConfig): boolean => {
+  // 如果没有配置 env，则不受影响（默认可用）
+  if (!route.env || route.env.length === 0) {
+    return true
+  }
+
+  const currentEnv = getCurrentEnvironment()
+  // 如果当前环境包含在 env 数组中，则构建该路由
+  return route.env.includes(currentEnv)
+}
+
 export const buildRoutes = (routes: RouteConfig[]): RouteObject[] => {
-  return routes.map((route) => {
-    const { element, Component, middlewares = [], children, ...res } = route
+  return routes
+    .filter(shouldIncludeRoute) // 环境过滤
+    .map((route) => {
+      const { element, Component, middlewares = [], children, ...res } = route
 
-    // 要返回的路由对象
-    let routeObject: RouteObject = {
-      ...res,
-    }
+      // 要返回的路由对象
+      let routeObject: RouteObject = {
+        ...res,
+      }
 
-    // 递归构建子路由
-    if (children && children.length > 0) {
-      routeObject.children = buildRoutes(children)
-    }
+      // 递归构建子路由（子路由也会应用环境过滤）
+      if (children && children.length > 0) {
+        const filteredChildren = buildRoutes(children)
+        // 只有在过滤后还有子路由时才设置 children
+        if (filteredChildren.length > 0) {
+          routeObject.children = filteredChildren
+        }
+      }
 
-    // 确定要使用的组件（优先使用element，其次是Component）
-    const targetComponent = element || Component
+      // 确定要使用的组件（优先使用element，其次是Component）
+      const targetComponent = element || Component
 
-    // 转换组件为React元素
-    if (targetComponent) {
-      routeObject.element = componentToElement(targetComponent)
-    }
+      // 转换组件为React元素
+      if (targetComponent) {
+        routeObject.element = componentToElement(targetComponent)
+      }
 
-    // 中间件处理
-    if (middlewares && middlewares.length > 0) {
-      // 从后往前遍历中间件，这样中间件的执行顺序就是从前往后
-      for (let i = middlewares.length - 1; i >= 0; i--) {
-        const middleware = middlewares[i]
-        const middlewareElement = componentToElement(middleware)
+      // 中间件处理
+      if (middlewares && middlewares.length > 0) {
+        // 从后往前遍历中间件，这样中间件的执行顺序就是从前往后
+        for (let i = middlewares.length - 1; i >= 0; i--) {
+          const middleware = middlewares[i]
+          const middlewareElement = componentToElement(middleware)
 
-        if (middlewareElement) {
-          routeObject = {
-            element: middlewareElement,
-            children: [routeObject],
+          if (middlewareElement) {
+            routeObject = {
+              element: middlewareElement,
+              children: [routeObject],
+            }
           }
         }
       }
-    }
 
-    return routeObject
-  })
+      return routeObject
+    })
 }
