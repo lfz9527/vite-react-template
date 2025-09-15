@@ -5,7 +5,10 @@ import { lazy } from 'react'
 const routes: RouteConfig[] = [
   {
     element: lazy(() => import('@/layouts/index')),
-    middlewares: [lazy(() => import('./middlewares/authMiddleware'))],
+    middlewares: [
+      lazy(() => import('./middlewares/authMiddleware')),
+      lazy(() => import('./middlewares/authMiddleware1')),
+    ],
     children: [
       {
         path: '/',

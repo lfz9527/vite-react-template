@@ -1,15 +1,4 @@
-import { useMessage } from '@/hooks'
-import { useEffect } from 'react'
-
 const Admin = () => {
-  const messageApi = useMessage()
-
-  useEffect(() => {
-    setTimeout(() => {
-      messageApi.success('调试全局MessageApi')
-    }, 1000)
-  }, [])
-
   return <div>Admin</div>
 }
 

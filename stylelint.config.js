@@ -1,17 +1,12 @@
 export default {
   // 从标准配置中继承规则
-  extends: [
-    'stylelint-config-standard',
-    'stylelint-config-rational-order',
-    'prettier',
-  ],
-  plugins: [
-    'stylelint-declaration-block-no-ignored-properties',
-    'stylelint-prettier',
-  ],
+  extends: ['stylelint-config-standard', 'stylelint-config-rational-order'],
+  plugins: ['stylelint-declaration-block-no-ignored-properties'],
 
   // 规则配置
   rules: {
+    // 忽略导入规则，兼容tailwindcss导入
+    'import-notation': null,
     // 关闭未知规则校验，主要是兼容tailwindcss，这里也是暴力兼容
     'at-rule-no-unknown': null,
     // 禁用注释前的空行规则
