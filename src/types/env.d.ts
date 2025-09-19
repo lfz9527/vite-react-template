@@ -10,7 +10,7 @@ declare module 'virtual:svg-icons-names' {
 }
 
 // 通过 envParse 生成的变量
-interface ImportMetaEnv {
+export interface ImportMetaEnv {
   // Auto generate by env-parse
   /**
    * 是否在打包时生成 sourcemap
@@ -20,4 +20,8 @@ interface ImportMetaEnv {
    * 是否在打包时开启压缩，支持 gzip 和 brotli
    */
   readonly VITE_BUILD_COMPRESS: string
+  /**
+   * 是否开启代码分析
+   */
+  readonly VITE_BUILD_ANALYZE: boolean
 }

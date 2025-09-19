@@ -34,6 +34,12 @@ export default defineConfig(({ mode, command }) => {
     // 构建选项 https://cn.vitejs.dev/config/build-options
     build: {
       outDir: `output/dist-${mode}`,
+      terserOptions: {
+        compress: {
+          drop_console: true, // 删除所有 console.*
+          drop_debugger: true, // 删除 debugger
+        },
+      },
       // 自定义资源的输出目录
       rollupOptions: {
         output: {

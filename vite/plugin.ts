@@ -5,10 +5,14 @@ import tailwindcss from '@tailwindcss/vite'
 import { envParse, parseLoadedEnv } from 'vite-plugin-env-parse'
 import { compression } from 'vite-plugin-compression2'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { visualizer } from 'rollup-plugin-visualizer'
+import type { ImportMetaEnv } from '@/types/env'
 import path from 'path'
 
 const createVitePlugin = (mode: string, isBuild = false) => {
-  const viteEnv = parseLoadedEnv(loadEnv(mode, process.cwd()))
+  const viteEnv = parseLoadedEnv(loadEnv(mode, process.cwd())) as ImportMetaEnv
+
+  console.log('viteEnv', viteEnv)
 
   const vitePlugins: PluginOption | PluginOption[] = [
     react(),
@@ -36,6 +40,14 @@ const createVitePlugin = (mode: string, isBuild = false) => {
       compression({
         exclude: [/\.(br)$/, /\.(gz)$/],
         algorithm: 'brotliCompress',
+      }),
+    // 代码压缩
+    viteEnv.VITE_BUILD_ANALYZE &&
+      visualizer({
+        open: true, // 打包后自动打开浏览器
+        gzipSize: true, // 显示 gzip 后体积
+        brotliSize: true, // 显示 brotli 后体积
+        filename: 'analyze.html', // 生成的报告文件名
       }),
   ]
 
