@@ -16,7 +16,9 @@ const createVitePlugin = (mode: string, isBuild = false) => {
   const vitePlugins: PluginOption | PluginOption[] = [
     react(),
     tailwindcss(),
-    vitePathAliases(),
+    vitePathAliases({
+      silent: false,
+    }),
     // 自动生成 别名
 
     // 环境变量

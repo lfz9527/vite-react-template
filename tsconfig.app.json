@@ -26,12 +26,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
-
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "noUncheckedSideEffectImports": true
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src", "src/types", "vite/**/*.ts"]
+  "include": ["src", "vite/**/*.ts"]
 }
