@@ -1,14 +1,5 @@
 /// <reference types="vite/client" />
 
-declare module 'virtual:svg-icons-register' {
-  const content: any
-  export default content
-}
-declare module 'virtual:svg-icons-names' {
-  const iconsNames: string[]
-  export default iconsNames
-}
-
 // 通过 envParse 生成的变量
 export interface ImportMetaEnv {
   // Auto generate by env-parse

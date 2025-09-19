@@ -6,17 +6,18 @@ import { envParse, parseLoadedEnv } from 'vite-plugin-env-parse'
 import { compression } from 'vite-plugin-compression2'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { visualizer } from 'rollup-plugin-visualizer'
-import type { ImportMetaEnv } from '@/types/env'
+import type { ImportMetaEnv } from '../src/types/env'
+import { vitePathAliases } from './vitePathAliases'
 import path from 'path'
 
 const createVitePlugin = (mode: string, isBuild = false) => {
   const viteEnv = parseLoadedEnv(loadEnv(mode, process.cwd())) as ImportMetaEnv
 
-  console.log('viteEnv', viteEnv)
-
   const vitePlugins: PluginOption | PluginOption[] = [
     react(),
     tailwindcss(),
+    vitePathAliases(),
+    // 自动生成 别名
 
     // 环境变量
     envParse({
