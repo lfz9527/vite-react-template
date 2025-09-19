@@ -33,5 +33,5 @@
     }
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.{ts,tsx}", "vite/**/*.{ts,tsx}"]
 }
