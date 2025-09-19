@@ -34,14 +34,13 @@ export async function writeJSON(
   indentation: Indentation = DEFAULT_INDENTATION
 ) {
   const name = path.replace(/^.*[\\/]/, '')
-  const state =
-    process === 'add' || process === 'default' ? 'created' : 'updated'
+  const state = process === 'add' || process === 'default' ? '创建' : '更新'
 
   try {
     await fs.writeFile(path, stringify(data, null, indentation))
-    logger.success(`File: ${name} successfully ${state}`)
+    logger.success(`File: ${name} 成功 ${state}`)
   } catch (error) {
-    logger.error(`File: ${name} could not be ${state}.`)
+    logger.error(`File: ${name} 不能被 ${state}.`)
     abort(error)
   }
 }

@@ -17,7 +17,7 @@ const createVitePlugin = (mode: string, isBuild = false) => {
     react(),
     tailwindcss(),
     vitePathAliases({
-      silent: false,
+      createGlobalAlias: true,
     }),
     // 自动生成 别名
 

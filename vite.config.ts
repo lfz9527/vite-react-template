@@ -1,10 +1,5 @@
 import { defineConfig, loadEnv } from 'vite'
-import path from 'path'
 import createVitePlugin from './vite/plugin'
-
-const resolve = (paths: string) => {
-  return path.resolve(__dirname, paths)
-}
 
 export default defineConfig(({ mode, command }) => {
   // .env 文件配置
@@ -26,11 +21,6 @@ export default defineConfig(({ mode, command }) => {
       },
     },
     plugins: createVitePlugin(mode, isBuild),
-    resolve: {
-      alias: {
-        '@': resolve('src'),
-      },
-    },
     // 构建选项 https://cn.vitejs.dev/config/build-options
     build: {
       outDir: `output/dist-${mode}`,

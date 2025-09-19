@@ -27,7 +27,7 @@ export async function writeConfig(
     return
   }
 
-  const name = dts ? 'tsconfig.paths' : 'jsconfig.paths'
+  const name = dts ? 'tsconfig.app' : 'tsconfig.app'
   const file = normalizePath(`${root}/${name}.json`)
 
   try {
