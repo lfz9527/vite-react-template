@@ -8,7 +8,6 @@ export default defineConfig(({ mode, command }) => {
   const isBuild = command === 'build'
 
   return {
-    // 开发服务器选项 https://cn.vitejs.dev/config/server-options
     server: {
       open: true,
       host: true,
@@ -21,13 +20,12 @@ export default defineConfig(({ mode, command }) => {
       },
     },
     plugins: createVitePlugin(mode, isBuild),
-    // 构建选项 https://cn.vitejs.dev/config/build-options
     build: {
       outDir: `output/dist-${mode}`,
       terserOptions: {
         compress: {
-          drop_console: true, // 删除所有 console.*
-          drop_debugger: true, // 删除 debugger
+          drop_console: true,
+          drop_debugger: true,
         },
       },
       // 自定义资源的输出目录
