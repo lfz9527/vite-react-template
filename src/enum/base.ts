@@ -38,7 +38,7 @@ abstract class BaseEnumCls<K extends EnumKey = string> implements EnumDic<K> {
   }
 
   static get<K extends EnumKey, E extends BaseEnumCls<K>>(
-    this: ClassConstructor<K>,
+    this: ClassConstructor<E>,
     key: EnumKey
   ): E | null {
     return (this as EJson).toArray().find((item: E) => item.key === key) || null

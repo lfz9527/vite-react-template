@@ -6,7 +6,7 @@ const Admin = () => {
     Gender.toArray().forEach((g) => {
       console.log(g.key)
     })
-    // Gender.get(Gender.FEMALE)
+    Gender.get('M')
   }, [])
 
   return <div>Admin</div>
