@@ -3,10 +3,10 @@ import { useEffect } from 'react'
 
 const Admin = () => {
   useEffect(() => {
-    Gender.toArray().forEach((g) => {
-      console.log(g.key)
-    })
+    console.log(typeof Gender)
     Gender.get('M')
+
+    console.log(Gender.getLabel(Gender.FEMALE.key))
   }, [])
 
   return <div>Admin</div>
