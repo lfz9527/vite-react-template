@@ -1,3 +1,4 @@
+import Axios from 'axios'
 import { defaultConfig, commonErrors } from './config'
 import {
   type AxiosInstance,
@@ -11,7 +12,6 @@ import {
   type Method,
   type RetryConfig,
 } from './type'
-import Axios from 'axios'
 
 /**
  * 增强型 HTTP 客户端，基于 Axios 封装

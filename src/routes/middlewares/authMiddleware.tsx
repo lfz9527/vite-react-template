@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
 import { Outlet } from 'react-router'
+import { useEffect } from 'react'
 
 const AuthMiddleware = () => {
   useEffect(() => {
