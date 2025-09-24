@@ -1,6 +1,6 @@
-import { createBrowserRouter } from 'react-router'
 import { buildRoutes, RouteConfig } from './utils'
 import { lazy } from 'react'
+import { createBrowserRouter } from 'react-router'
 
 const routes: RouteConfig[] = [
   {

@@ -1,6 +1,6 @@
+import { logger } from './loggerMiddleware'
 import { create } from 'zustand'
 import { persist, createJSONStorage, devtools } from 'zustand/middleware'
-import { logger } from './loggerMiddleware'
 
 type State = {
   token: string

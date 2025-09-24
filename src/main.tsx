@@ -1,7 +1,7 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
 import App from './App'
 import '@/styles/tailwindcss.css'
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 import 'virtual:svg-icons-register'
 
 const root = createRoot(document.getElementById('root')!, {

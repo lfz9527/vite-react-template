@@ -1,5 +1,5 @@
-import { defineConfig, loadEnv } from 'vite'
 import createVitePlugin from './vite/plugin'
+import { defineConfig, loadEnv } from 'vite'
 
 export default defineConfig(({ mode, command }) => {
   // .env 文件配置

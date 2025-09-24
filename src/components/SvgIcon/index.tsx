@@ -30,7 +30,7 @@ const SvgIcon = (props: SvgIconProps) => {
   return (
     <svg
       className={classNames}
-      aria-hidden="true"
+      aria-hidden='true'
       style={{
         width,
         height,

@@ -1,6 +1,6 @@
-import { RouteObject } from 'react-router'
-import { ComponentType, LazyExoticComponent, ReactElement } from 'react'
 import LazyImport from '@/components/LazyImport'
+import { ComponentType, LazyExoticComponent, ReactElement } from 'react'
+import { RouteObject } from 'react-router'
 
 // 懒加载组件类型
 export type LazyComponent = LazyExoticComponent<ComponentType>
