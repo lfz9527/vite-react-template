@@ -1,5 +1,10 @@
 import Loading from '@/components/Loading'
-import { ComponentType, FC, LazyExoticComponent, Suspense } from 'react'
+import {
+  type ComponentType,
+  type FC,
+  type LazyExoticComponent,
+  Suspense,
+} from 'react'
 
 interface LazyImportProps {
   lazy?: LazyExoticComponent<ComponentType>

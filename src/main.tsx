@@ -1,8 +1,8 @@
+import App from './App'
 import '@/styles/tailwindcss.css'
-import 'virtual:svg-icons-register'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App'
+import 'virtual:svg-icons-register'
 
 const root = createRoot(document.getElementById('root')!, {
   // 捕获 ErrorBoundary 内部的错误

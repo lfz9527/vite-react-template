@@ -21,7 +21,7 @@ export default defineConfig(({ mode, command }) => {
     },
     plugins: createVitePlugin(mode, isBuild),
     build: {
-      outDir: `output/dist-${mode}`,
+      outDir: `output/build-${mode}`,
       terserOptions: {
         compress: {
           drop_console: true,

@@ -1,5 +1,5 @@
-import { stringify } from 'qs'
 import { type AxiosRequestConfig, type CustomParamsSerializer } from './type'
+import { stringify } from 'qs'
 
 /** 通用错误码 */
 export const commonErrors: Record<number, string> = {
