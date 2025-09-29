@@ -13,14 +13,14 @@
     "source.fixAll.prettier": "explicit"
   },
   // =======================下面是配置prettier格式化的setting===================
-  // 指定哪些文件不参与搜索
+  // 指定哪些文件不参与搜�?
   "search.exclude": {
     "**/node_modules": true,
     "dist": true,
     "build": true,
     "yarn.lock": true
   },
-  // 保存自动格式化
+  // 保存自动格式�?
   "editor.formatOnSave": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -53,9 +53,9 @@
     "typescript",
     "typescriptreact"
   ],
-  "typescript.tsdk": "./node_modules/typescript/lib", // 代替 vscode 的 ts 语法智能提示
+  "typescript.tsdk": "./node_modules/typescript/lib", // 代替 vscode �?ts 语法智能提示
   // ========================stylelint==============================
-  // 使用 stylelint 自身的校验即可, 关闭vscode验证
+  // 使用 stylelint 自身的校验即�? 关闭vscode验证
   "css.validate": false,
   "less.validate": false,
   "scss.validate": false,
