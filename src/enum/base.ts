@@ -1,11 +1,6 @@
 // key的类型
 type EnumKey = string | number | boolean
 
-// JSON格式
-interface EJson<V = any> {
-  [x: string]: V
-}
-
 /**
  * # 类包装
  */
@@ -19,6 +14,19 @@ export interface EnumDic<K extends EnumKey = EnumKey> {
   // 字典的显示标题
   label: string
 }
+
+/**
+ * 提取某个 AirEnum 子类的所有 key 类型
+ */
+export type EnumKeys<E extends ClassConstructor<any>> = InstanceType<E>['key']
+
+/**
+ * 生成 key -> 任意值类型 的映射
+ */
+export type EnumKeyMap<E extends ClassConstructor<any>, V = any> = Record<
+  Extract<EnumKeys<E>, string | number>,
+  V
+>
 
 // 枚举类
 abstract class BaseEnumCls<K extends EnumKey = string> implements EnumDic<K> {
@@ -51,7 +59,10 @@ abstract class BaseEnumCls<K extends EnumKey = string> implements EnumDic<K> {
     this: ClassConstructor<E>,
     key: EnumKey
   ): E | null {
-    return (this as EJson).toArray().find((item: E) => item.key === key) || null
+    return (
+      (this as Global.anyObj).toArray().find((item: E) => item.key === key) ||
+      null
+    )
   }
 
   /**
@@ -64,7 +75,7 @@ abstract class BaseEnumCls<K extends EnumKey = string> implements EnumDic<K> {
     this: ClassConstructor<E>,
     key: K
   ): string | null {
-    return (this as EJson).get(key)?.label ?? null
+    return (this as Global.anyObj).get(key)?.label ?? null
   }
 
   getKey(): K {
