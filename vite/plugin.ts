@@ -1,5 +1,4 @@
-import type { PluginOption } from 'vite'
-import { loadEnv } from 'vite'
+import { loadEnv,type  PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { envParse, parseLoadedEnv } from 'vite-plugin-env-parse'
