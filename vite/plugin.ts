@@ -15,10 +15,11 @@ const createVitePlugin = (mode: string, isBuild = false) => {
   const vitePlugins: PluginOption | PluginOption[] = [
     react(),
     tailwindcss(),
+        // 自动生成 别名
     vitePathAliases({
       createGlobalAlias: true,
     }),
-    // 自动生成 别名
+
 
     // 环境变量
     envParse({
