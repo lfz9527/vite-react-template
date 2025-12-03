@@ -340,9 +340,14 @@ class HttpBase {
 
   public async fetch<T = any>(
     url: string,
-    options: RequestInit & { data?: Global.anyObj; isSEE: boolean }
+    options: RequestInit & {
+      // 入参 和 axios 统一都是有data
+      data?: Global.anyObj
+      // 是否返回原相应
+      origin?: boolean
+    }
   ): Promise<ResponseData<T> | T> {
-    const { data, method, isSEE } = options
+    const { data, method, origin } = options
     // 默认配置
     const { headers, baseURL } = defaultConfig
     // 统一变成小写处理
@@ -381,7 +386,7 @@ class HttpBase {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
       const result = await response.json()
-      if (isSEE) return result
+      if (origin) return result
       return result.data
     } catch (error) {
       return Promise.reject(error)
