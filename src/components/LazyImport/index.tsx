@@ -13,7 +13,7 @@ interface LazyImportProps {
 const LazyImport: FC<LazyImportProps> = ({ lazy }) => {
   const Component = lazy ? lazy : () => null
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading className='h-screen' />}>
       <Component />
     </Suspense>
   )
