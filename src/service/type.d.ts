@@ -40,3 +40,30 @@ export interface ErrorCallback {
   onError?: (error: ResponseError) => void
   onAuthorized?: (error: ResponseError) => void
 }
+
+export interface FetchOptions extends RequestInit {
+  // 入参 和 axios 统一都是有data
+  data?: any
+  // 是否返回原相应
+  origin?: boolean
+}
+
+// 流式响应回调
+export interface StreamCallback extends ErrorCallback {
+  // 开始响应
+  onStreamStart?: () => void
+  // 响应中的更新
+  onStreamUpdate?: (data: ChunkData) => void
+  // 相应成功
+  onStreamSuccess?: (data: ChunkData) => void
+  // 响应错误
+  onStreamError?: (data: ResponseData) => void
+  // 响应结束
+  onStreamComplete?: ({ complete: boolean, error: boolean }) => void
+}
+
+// 响应流json对象类型
+export interface ChunkData {
+  id: string
+  OutputMessage: string
+}

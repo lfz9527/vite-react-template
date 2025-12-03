@@ -10,6 +10,7 @@ import {
   type ResponseData,
   type Method,
   type RetryConfig,
+  type FetchOptions,
 } from './type'
 import Axios from 'axios'
 import { stringify } from 'qs'
@@ -75,6 +76,54 @@ class HttpBase {
       customErrorInterceptor || defaultErrorInterceptor
     )
   }
+  // 默认响应错误拦截器
+  defaultErrorInterceptor(error: AxiosError): Promise<any> {
+    if (error.config) {
+      const requestKey = this.getRequestKey(error.config)
+      if (requestKey) this.abortControllers.delete(requestKey)
+    }
+
+    // HTTP状态码错误处理
+    let status = 200
+
+    // 处理请求被取消的情况
+    if (Axios.isCancel(error)) {
+      console.warn('请求已被取消:', error.message)
+      status = 499
+      return Promise.reject({
+        code: status,
+        message: commonErrors[status],
+      })
+    }
+    // 网络错误处理
+    if (!(error as AxiosError).response) {
+      if (
+        (error as any).code === 'ECONNABORTED' ||
+        (error as AxiosError).message?.includes('timeout')
+      ) {
+        status = 408
+        return Promise.reject({
+          code: status,
+          message: commonErrors[status],
+        })
+      }
+      status = 503
+      return Promise.reject({
+        code: status,
+        message: commonErrors[status],
+      })
+    }
+    // HTTP状态码错误处理
+    status = (error as AxiosError).response?.status ?? 502
+    return this.errorResponse(status)
+  }
+  errorResponse(status: number = 502) {
+    const message = commonErrors[status] || `请求失败（状态码：${status}）`
+    return Promise.reject({
+      code: status,
+      message,
+    })
+  }
 
   /** 初始化响应拦截 */
   private initResponseInterceptor(
@@ -91,57 +140,10 @@ class HttpBase {
       return response
     }
 
-    // 默认响应错误拦截器
-    const defaultErrorInterceptor = (error: AxiosError): Promise<any> => {
-      if (error.config) {
-        const requestKey = this.getRequestKey(error.config)
-        if (requestKey) this.abortControllers.delete(requestKey)
-      }
-
-      // HTTP状态码错误处理
-      let status = 200
-
-      // 处理请求被取消的情况
-      if (Axios.isCancel(error)) {
-        console.warn('请求已被取消:', error.message)
-        status = 499
-        return Promise.reject({
-          code: status,
-          message: commonErrors[status],
-        })
-      }
-      // 网络错误处理
-      if (!(error as AxiosError).response) {
-        if (
-          (error as any).code === 'ECONNABORTED' ||
-          (error as AxiosError).message?.includes('timeout')
-        ) {
-          status = 408
-          return Promise.reject({
-            code: status,
-            message: commonErrors[status],
-          })
-        }
-        status = 503
-        return Promise.reject({
-          code: status,
-          message: commonErrors[status],
-        })
-      }
-      // HTTP状态码错误处理
-      status = (error as AxiosError).response?.status ?? 502
-
-      const message = commonErrors[status] || `请求失败（状态码：${status}）`
-      return Promise.reject({
-        code: status,
-        message,
-      })
-    }
-
     // 优先使用自定义拦截器，否则使用默认拦截器
     this.responseInterceptorId = this.instance.interceptors.response.use(
       customInterceptor || defaultInterceptor,
-      customErrorInterceptor || defaultErrorInterceptor
+      customErrorInterceptor || this.defaultErrorInterceptor
     )
   }
 
@@ -254,9 +256,9 @@ class HttpBase {
     return new Promise((resolve) => setTimeout(resolve, ms))
   }
 
-  public async request<T = any>(
-    method: Method,
+  public async request<T = Global.anyObj>(
     url: string,
+    method: Method,
     config?: AxiosRequestConfig & {
       requestKey?: RequestKey
       retry?: RetryConfig
@@ -317,17 +319,17 @@ class HttpBase {
     return Promise.reject(lastError)
   }
 
-  public get<T = any>(
+  public get<T = Global.anyObj>(
     url: string,
     config?: AxiosRequestConfig & {
       requestKey?: RequestKey
       retry?: RetryConfig
     }
   ): Promise<ResponseData<T>> {
-    return this.request<T>('get', url, config)
+    return this.request<T>(url, 'get', config)
   }
 
-  public post<T = any>(
+  public post<T = Global.anyObj>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig & {
@@ -335,19 +337,21 @@ class HttpBase {
       retry?: RetryConfig
     }
   ): Promise<ResponseData<T>> {
-    return this.request<T>('post', url, { ...config, data })
+    return this.request<T>(url, 'post', { ...config, data })
   }
 
-  public async fetch<T = any>(
+  async fetch(url: string, options: FetchOptions): Promise<Response>
+
+  async fetch<T = Global.anyObj>(
     url: string,
-    options: RequestInit & {
-      // 入参 和 axios 统一都是有data
-      data?: Global.anyObj
-      // 是否返回原相应
-      origin?: boolean
-    }
-  ): Promise<ResponseData<T> | T> {
-    const { data, method, origin } = options
+    options: FetchOptions
+  ): Promise<ResponseData<T> | T>
+
+  public async fetch<T = Global.anyObj>(
+    url: string,
+    options?: FetchOptions
+  ): Promise<T | Response> {
+    const { data, method, origin } = options || {}
     // 默认配置
     const { headers, baseURL } = defaultConfig
     // 统一变成小写处理
@@ -357,7 +361,7 @@ class HttpBase {
       ...options,
       headers: {
         ...headers,
-        ...options.headers,
+        ...options?.headers,
       },
     }
 
@@ -374,22 +378,24 @@ class HttpBase {
     if (!methodLower || ['get', 'head'].includes(methodLower)) {
       const params = data ? `?${new URLSearchParams(data)}` : ''
       link = `${link}${params}`
-      delete options.data
-      delete options.body
+      delete options?.data
+      delete options?.body
     } else {
       config.body = data ? stringify(data) : ''
     }
-
+    let response = null
     try {
-      const response = await fetch(link, config)
-      if (!response.ok) {
+      response = await fetch(link, config)
+      if (!response?.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
+
+      if (origin) return response
       const result = await response.json()
-      if (origin) return result
       return result.data
-    } catch (error) {
-      return Promise.reject(error)
+    } catch (error: any) {
+      console.error(error)
+      return this.errorResponse(response?.status)
     }
   }
 }
