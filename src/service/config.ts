@@ -17,6 +17,7 @@ export const commonErrors: Record<number, string> = {
 
 // 默认配置
 export const defaultConfig: AxiosRequestConfig = {
+  baseURL: '',
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json;charset=utf-8',

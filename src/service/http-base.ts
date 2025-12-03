@@ -12,6 +12,7 @@ import {
   type RetryConfig,
 } from './type'
 import Axios from 'axios'
+import { stringify } from 'qs'
 
 /**
  * 增强型 HTTP 客户端，基于 Axios 封装
@@ -335,6 +336,56 @@ class HttpBase {
     }
   ): Promise<ResponseData<T>> {
     return this.request<T>('post', url, { ...config, data })
+  }
+
+  public async fetch<T = any>(
+    url: string,
+    options: RequestInit & { data?: Global.anyObj; isSEE: boolean }
+  ): Promise<ResponseData<T> | T> {
+    const { data, method, isSEE } = options
+    // 默认配置
+    const { headers, baseURL } = defaultConfig
+    // 统一变成小写处理
+    const methodLower = method?.toLocaleLowerCase()
+    // 配置
+    const config = {
+      ...options,
+      headers: {
+        ...headers,
+        ...options.headers,
+      },
+    }
+
+    let link = url
+
+    // 判断是否需要添加baseUrl
+    if (baseURL) {
+      if (!url.startsWith('http')) {
+        link = baseURL + url
+      }
+    }
+
+    // 区分 get 或者 head 方法不需要body  如果没填data 则默认为get 方法
+    if (!methodLower || ['get', 'head'].includes(methodLower)) {
+      const params = data ? `?${new URLSearchParams(data)}` : ''
+      link = `${link}${params}`
+      delete options.data
+      delete options.body
+    } else {
+      config.body = data ? stringify(data) : ''
+    }
+
+    try {
+      const response = await fetch(link, config)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      const result = await response.json()
+      if (isSEE) return result
+      return result.data
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 }
 

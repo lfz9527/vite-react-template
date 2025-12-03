@@ -1,2 +1,1 @@
-const isProduction = import.meta.env.PROD
-export { isProduction }
+export const isProduction = () => import.meta.env.PROD
