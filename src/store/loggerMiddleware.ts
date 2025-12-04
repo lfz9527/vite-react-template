@@ -1,5 +1,5 @@
 // 日志中间件
-import { isProduction } from '@/utils'
+import { isProd } from '@/utils'
 import { type StateCreator, type StoreMutatorIdentifier } from 'zustand'
 
 /**
@@ -41,7 +41,7 @@ const loggerImpl: LoggerImpl = (f, name) => (set, get, store) => {
     // @ts-ignore
     set(...args)
     // 记录日志，包括可选的名称和当前状态
-    if (!isProduction()) {
+    if (!isProd()) {
       console.log('store--', ...(name ? [`${name}:`] : []), get())
     }
   }

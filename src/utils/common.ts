@@ -1,1 +1,1 @@
-export const isProduction = () => import.meta.env.PROD
+export const t = () => {}
