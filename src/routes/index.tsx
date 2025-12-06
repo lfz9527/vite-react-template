@@ -5,11 +5,11 @@ import { createBrowserRouter } from 'react-router'
 
 const routes: RouteConfig[] = [
   {
-    element: lazy(() => import('@/layouts/index')),
+    element: lazy(() => import('@/layouts/root')),
     errorElement: <RouteErrorBoundary />,
     children: [
       {
-        element: lazy(() => import('@/layouts/index')),
+        element: lazy(() => import('@/layouts/basicLayout')),
         middlewares: [
           lazy(() => import('./middlewares/authMiddleware')),
           lazy(() => import('./middlewares/authMiddleware1')),
