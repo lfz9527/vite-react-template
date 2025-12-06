@@ -1,14 +1,14 @@
 import React, { type ReactNode } from 'react'
-import GlobalCrash from './GlobalCrash'
 
 interface Props {
-  fallback?: ReactNode
+  fallback?: ReactNode | ((error: Error, info?: React.ErrorInfo) => ReactNode)
   children: ReactNode
 }
 
 interface State {
   hasError: boolean
   error: Error | null
+  errorInfo?: React.ErrorInfo
 }
 
 export class ErrorBoundary extends React.Component<Props, State> {
@@ -17,6 +17,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
     this.state = {
       hasError: false,
       error: null,
+      errorInfo: undefined,
     }
   }
 
@@ -28,13 +29,20 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    // 在这里做你的埋点上报
+    // 保存 errorInfo
+    this.setState({ errorInfo: info })
+
+    // 这里做你的埋点上报
     console.error('ErrorBoundary 捕获错误：', error, info)
   }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback ?? <GlobalCrash />
+      const { fallback } = this.props
+      if (typeof fallback === 'function') {
+        return fallback(this.state.error!, this.state.errorInfo)
+      }
+      return fallback ?? <>出错了！！</>
     }
     return this.props.children
   }

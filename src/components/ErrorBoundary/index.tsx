@@ -1,3 +1,4 @@
 export * from './ErrorBoundary'
 export * from './withErrorBoundary'
 export * from './GlobalCrash'
+export * from './RouteErrorBoundary'

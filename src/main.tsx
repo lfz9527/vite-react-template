@@ -2,8 +2,8 @@ import App from './App'
 import '@/styles/tailwindcss.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { ErrorBoundary } from '@/components/ErrorBoundary'
 import 'virtual:svg-icons-register'
+import { GlobalCrash, ErrorBoundary } from '@/components/ErrorBoundary'
 
 const root = createRoot(document.getElementById('root')!, {
   // 捕获 ErrorBoundary 内部的错误
@@ -24,7 +24,8 @@ const root = createRoot(document.getElementById('root')!, {
 
 root.render(
   <StrictMode>
-    <ErrorBoundary>
+    {/* 全局错误捕获 */}
+    <ErrorBoundary fallback={(error) => <GlobalCrash error={error} />}>
       <App />
     </ErrorBoundary>
   </StrictMode>
