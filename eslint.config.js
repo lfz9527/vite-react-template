@@ -82,6 +82,12 @@ export default defineConfig([
       ],
     },
   },
+  {
+    files,
+    rules: {
+      'prettier/prettier': ['error', { endOfLine: 'lf' }],
+    },
+  },
   // Prettier 支持
   pluginPrettierRecommended,
 ])
