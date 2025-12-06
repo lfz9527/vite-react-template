@@ -74,6 +74,9 @@
       ],
       "@AutoTooltipText/*": [
         "src/components/AutoTooltipText/*"
+      ],
+      "@ErrorBoundary/*": [
+        "src/components/ErrorBoundary/*"
       ]
     }
   },

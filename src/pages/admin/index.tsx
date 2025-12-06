@@ -6,7 +6,6 @@ const Admin = () => {
   useEffect(() => {
     console.log(typeof Gender)
     Gender.get('M')
-
     console.log(Gender.getLabel(Gender.FEMALE.key))
   }, [])
 

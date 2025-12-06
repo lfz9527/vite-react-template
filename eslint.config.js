@@ -80,6 +80,8 @@ export default defineConfig([
         'warn',
         { allowConstantExport: true },
       ],
+      // 允许到处匿名函数组件
+      'react/display-name': 'off',
     },
   },
   {

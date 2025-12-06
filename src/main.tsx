@@ -2,6 +2,7 @@ import App from './App'
 import '@/styles/tailwindcss.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import 'virtual:svg-icons-register'
 
 const root = createRoot(document.getElementById('root')!, {
@@ -23,6 +24,8 @@ const root = createRoot(document.getElementById('root')!, {
 
 root.render(
   <StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </StrictMode>
 )

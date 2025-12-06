@@ -6,9 +6,8 @@
   "editor.fontSize": 14,
   "git.autofetch": true,
   "git.confirmSync": false,
-  "files.eol": "\n",
-  "editor.insertFinalNewline": true,
-  "editor.trimAutoWhitespace": true,
+
+
 
   // 保存自动修复
   "editor.codeActionsOnSave": {
@@ -26,6 +25,7 @@
   },
   // 保存自动格式�?
   "editor.formatOnSave": true,
+  "files.eol": "\n",
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
