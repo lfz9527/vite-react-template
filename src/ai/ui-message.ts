@@ -6,7 +6,7 @@ export type DataTypes = Record<string, unknown>
 export type UIMessageChunk<T = Record<string, unknown>> = {
   Msg: string
   Code: number
-  data: string | T
+  Data: string | T
 }
 
 // 元数据
@@ -39,7 +39,7 @@ export type TextUIPart = {
   /**
    * 内容状态
    */
-  state?: 'streaming' | 'done'
+  state?: 'streaming' | 'done' | 'error'
 }
 
 /**
@@ -76,4 +76,8 @@ export type ToolUIPart = {
    * 工具名
    */
   toolName: string
+}
+
+export function isTextUIPart(part: UIMessagePart): part is TextUIPart {
+  return part.type === 'text'
 }

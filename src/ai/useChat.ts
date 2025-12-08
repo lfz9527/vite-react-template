@@ -9,7 +9,10 @@ export type UseChatHelpers<UI_MESSAGE extends UIMessage> = {
   setMessages: (
     messages: UI_MESSAGE[] | ((messages: UI_MESSAGE[]) => UI_MESSAGE[])
   ) => void
-} & Pick<AbstractChat<UI_MESSAGE>, 'sendMessage' | 'status' | 'messages'>
+} & Pick<
+  AbstractChat<UI_MESSAGE>,
+  'sendMessage' | 'status' | 'messages' | 'clearError' | 'stop'
+>
 
 export type UseChatOptions<UI_MESSAGE extends UIMessage> = (
   | ChatInit<UI_MESSAGE>
@@ -25,7 +28,6 @@ export function useChat<UI_MESSAGE extends UIMessage = UIMessage>({
   const chatRef = useRef<Chat<UI_MESSAGE>>(
     'chat' in options ? options.chat : new Chat(options)
   )
-
   const shouldRecreateChat =
     ('chat' in options && options.chat !== chatRef.current) ||
     ('id' in options && chatRef.current.id !== options.id)
@@ -82,5 +84,7 @@ export function useChat<UI_MESSAGE extends UIMessage = UIMessage>({
     sendMessage: chatRef.current.sendMessage,
     error,
     status,
+    clearError: chatRef.current.clearError,
+    stop: chatRef.current.stop,
   }
 }

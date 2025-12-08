@@ -25,9 +25,10 @@ export class ChatError<T = unknown> extends Error {
 
       // 覆盖 stack，使 ChatError 继承原始堆栈信息（通常更有用）
       this.stack = messageOrError.stack
+      this.name = messageOrError.name
+    } else {
+      this.name = 'ChatError'
     }
-
-    this.name = 'ChatError'
 
     Object.setPrototypeOf(this, ChatError.prototype)
   }

@@ -75,7 +75,7 @@ export function createStreamingUIMessageState<UI_MESSAGE extends UIMessage>({
         ? lastMessage
         : ({
             id: messageId,
-            metadata: undefined,
+            metadata: [],
             role: 'ai',
             parts: [] as UIMessagePart[],
           } as unknown as UI_MESSAGE),
@@ -177,10 +177,10 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage, M = unknown> {
     this.state.messages = messages
   }
 
-  async sendMessage(
+  sendMessage = async (
     message: CreateUIMessage<UI_MESSAGE>,
     options?: ChatRequestOptions
-  ): Promise<void> {
+  ): Promise<void> => {
     if (message.messageId != null) {
       const messageIndex = this.state.messages.findIndex(
         (m) => m.id === message.messageId
@@ -245,17 +245,20 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage, M = unknown> {
         headers,
         body,
       })
-
       const runUpdateMessageJob = (
         job: (options: {
           state: StreamingUIMessageState<UI_MESSAGE>
           write: () => void
         }) => Promise<void>
-      ) =>
+      ) => {
+        const stateRef = activeResponse.state
         // 序列化作业执行以避免竞争条件：
-        this.jobExecutor.run(() =>
-          job({
-            state: activeResponse.state,
+        return this.jobExecutor.run(() => {
+          if (!this.activeResponse) {
+            return Promise.resolve()
+          }
+          return job({
+            state: stateRef,
             write: () => {
               // 流式响应设置在第一次写入（在“提交”之前）
               this.setStatus({ status: 'streaming' })
@@ -273,7 +276,8 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage, M = unknown> {
               }
             },
           })
-        )
+        })
+      }
 
       await consumeStream({
         stream: processUIMessageStream({
@@ -281,13 +285,15 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage, M = unknown> {
           onData: this.onData,
           runUpdateMessageJob,
           onError: (error) => {
-            throw error
+            throw new ChatError(error)
           },
         }),
         onError: (error) => {
           throw new ChatError(error)
         },
       })
+
+      this.setStatus({ status: 'ready' })
     } catch (error: any) {
       // 请求终止错误
       if (isAbort || (error as any).name === 'AbortError') {
@@ -302,7 +308,7 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage, M = unknown> {
     } finally {
       try {
         this.onFinish?.({
-          message: this.activeResponse!.state.message,
+          message: this.activeResponse!.state?.message,
           messages: this.state.messages,
           isAbort,
           isError,
@@ -313,6 +319,19 @@ export abstract class AbstractChat<UI_MESSAGE extends UIMessage, M = unknown> {
       }
 
       this.activeResponse = undefined
+    }
+  }
+  clearError = () => {
+    if (this.status === 'error') {
+      this.state.error = undefined
+      this.setStatus({ status: 'ready' })
+    }
+  }
+  stop = async () => {
+    if (this.status !== 'streaming' && this.status !== 'submitted') return
+
+    if (this.activeResponse?.abortController) {
+      this.activeResponse.abortController.abort()
     }
   }
 }
