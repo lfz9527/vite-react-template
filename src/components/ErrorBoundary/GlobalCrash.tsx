@@ -2,18 +2,12 @@ import React from 'react'
 
 interface Props {
   error?: unknown
-  onRetry?: () => void
 }
 
 // 全局错误捕获
-export const GlobalCrash: React.FC<Props> = ({ error, onRetry }) => {
+export const GlobalCrash: React.FC<Props> = ({ error }) => {
   const handleRetry = () => {
-    if (onRetry) {
-      onRetry()
-    } else {
-      // 默认行为：刷新页面
-      window.location.reload()
-    }
+    window.location.reload()
   }
 
   return (

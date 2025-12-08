@@ -1,29 +1,16 @@
 import { useEffect } from 'react'
 import { useRouteError, isRouteErrorResponse } from 'react-router'
 
-interface Props {
-  report?: (err: unknown) => void
-  onRetry?: VoidFunction
-}
-
-export const RouteErrorBoundary = ({ report, onRetry }: Props) => {
+export const RouteErrorBoundary = () => {
   const error = useRouteError()
 
   useEffect(() => {
     if (!error) return
-    const handleReport = () => {
-      report?.(error)
-    }
-    handleReport()
     console.error('路由错误捕获:', error)
-  }, [error, report])
+  }, [error])
 
   const handleRetry = () => {
-    if (onRetry) {
-      onRetry()
-    } else {
-      window.location.reload()
-    }
+    window.location.reload()
   }
 
   // 展示友好 UI
