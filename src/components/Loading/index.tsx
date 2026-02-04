@@ -1,16 +1,18 @@
-import cs from 'classnames'
-import SvgIcon from '@components/SvgIcon'
+import { cn } from '@/utils'
+import SvgIcon, { type SvgIconProps } from '@components/SvgIcon'
 
-interface LoadingProps {
+type LoadingProps = {
   className?: string
+  iconProps?: Partial<Omit<SvgIconProps, 'name'>>
 }
 
-const Loading = (props: LoadingProps) => {
-  const { className } = props
-  const classNames = cs('flex items-center justify-center', className)
+const Loading = ({ className, iconProps }: LoadingProps) => {
   return (
-    <div className={classNames}>
-      <SvgIcon name='loading' />
+    <div className={cn('flex-center', className)}>
+      <SvgIcon
+        {...iconProps}
+        name='loading'
+      />
     </div>
   )
 }

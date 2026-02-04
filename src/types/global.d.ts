@@ -12,4 +12,10 @@ declare namespace Global {
   type PartialExcept<T, K extends keyof T> = Partial<Omit<T, K>> & Pick<T, K>
 
   type anyObj<V = any> = Record<string, V>
+
+  type Response<T = any> = {
+    code: number
+    message?: string
+    data: T
+  }
 }

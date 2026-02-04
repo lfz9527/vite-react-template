@@ -9,11 +9,7 @@ export {
 } from 'axios'
 
 // 业务响应数据基础结构
-export interface ResponseData<T = any> {
-  code: number
-  message?: string
-  data: T
-}
+export type ResponseData<T = any> = Global.Response<T>
 
 // 拦截器配置类型
 export interface InterceptorsConfig {

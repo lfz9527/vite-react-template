@@ -77,7 +77,7 @@ class HttpBase {
     )
   }
   // 默认响应错误拦截器
-  defaultErrorInterceptor(error: AxiosError): Promise<any> {
+  defaultErrorInterceptor = (error: AxiosError): Promise<any> => {
     if (error.config) {
       const requestKey = this.getRequestKey(error.config)
       if (requestKey) this.abortControllers.delete(requestKey)

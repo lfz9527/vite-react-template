@@ -1,5 +1,4 @@
-import cs from 'classnames'
-import { useMemo } from 'react'
+import { cn } from '@/utils'
 
 export interface SvgIconProps {
   prefix?: string
@@ -7,8 +6,6 @@ export interface SvgIconProps {
   className?: string
   name: string
   size?: number
-  width?: number
-  height?: number
   color?: string
 }
 
@@ -19,24 +16,17 @@ const SvgIcon = (props: SvgIconProps) => {
     prefix = 'icon',
     style = {},
     size = 28,
-    width = size,
-    height = size,
     color = '#000',
   } = props
-
-  const classNames = useMemo(() => cs(className), [className])
 
   const symbolId = `#${prefix}-${name}`
   return (
     <svg
-      className={classNames}
+      className={cn(`flex-center`, className)}
       aria-hidden='true'
       style={{
-        width,
-        height,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: size,
+        height: size,
         color,
         ...style,
       }}
