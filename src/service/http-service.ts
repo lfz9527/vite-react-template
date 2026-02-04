@@ -11,7 +11,7 @@ import type {
   ChunkData,
 } from './type'
 
-interface OptionsType extends AxiosRequestConfig {
+export type OptionsConfig = AxiosRequestConfig & {
   method?: Method
   errorCallback?: ErrorCallback
   requestKey?: RequestKey
@@ -37,7 +37,7 @@ class HttpService {
   }
 
   // 二次封装，兼容openapi
-  async openApiRequest<T = any>(url: string, options?: OptionsType) {
+  async openApiRequest<T = any>(url: string, options?: OptionsConfig) {
     try {
       const result = await http.request<T>(url, options?.method || 'post', {
         ...options,
