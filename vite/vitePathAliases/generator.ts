@@ -47,6 +47,23 @@ export class Generator {
       this.options.dts ? 'TypeScript 已安装' : 'TypeScript 未安装只能使用js'
     )
   }
+
+  /**
+   * 判断当前路径是否是指定路径层级
+   * @param path
+   * @returns boolean
+   */
+  checkAddPath(path:string){
+      const correctedPath = normalizePath(path)
+    const folders = split(
+      correctedPath.replace(this.fullPath, this.options.dir),
+      '/'
+    ).filter(Boolean)
+   if(folders.length > this.options.depth + 1) return false
+
+   return true
+  }
+
   // 监听文件变化
   observe() {
     const watcher = chokidar.watch(this.fullPath, {
@@ -57,6 +74,9 @@ export class Generator {
     })
     watcher
       .on('addDir', (path) => {
+        const isAdd = this.checkAddPath(path)
+        if(!isAdd) return
+
         this.addAlias(path)
         writeLog(this, 'add')
         writeConfig(this, 'add')
