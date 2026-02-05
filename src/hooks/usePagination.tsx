@@ -1,7 +1,7 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 // ==================== 类型定义 ====================
-type ListData<T> = {
+export type ListData<T> = {
   list: T[]
   total: number
 }
@@ -31,6 +31,7 @@ export function usePagination<T>(fn: Fn<T>, options?: Options) {
     ...DEFAULT_OPTIONS,
     ...options,
   }
+  const [update, setUpdate] = useState(0)
 
   // 是否首次渲染
   const isFirstRender = useRef(true)
@@ -58,10 +59,24 @@ export function usePagination<T>(fn: Fn<T>, options?: Options) {
     [fn, page, pageSize]
   )
 
+  const getMaxPage = useCallback(
+    () => Math.ceil(listData.total / pageSize),
+    [listData.total, pageSize]
+  )
+
   // 设置页码
-  const setPage = useCallback((p: number) => {
-    setPageState(p)
-  }, [])
+  const setPage = useCallback(
+    (p: number) => {
+      // 页码不能大于最大页码
+      if (p > getMaxPage()) {
+        return
+      }
+      // 防止小数，默认取整数部分，并且不能小于 initPage
+      const page = Math.ceil(Math.max(initPage, p))
+      setPageState(page)
+    },
+    [initPage, getMaxPage]
+  )
 
   // 设置分页大小（重置到第一页）, 可选是否重置页码
   const setPageSize = useCallback(
@@ -81,7 +96,9 @@ export function usePagination<T>(fn: Fn<T>, options?: Options) {
   const reset = useCallback(() => {
     setPageState(initPage)
     setPageSizeState(initPageSize)
-    setListData({ list: [], total: 0 })
+
+    // 重置时，有可能还是初始状态，所以需要更新状态以触发重新渲染
+    setUpdate((prev) => prev + 1)
   }, [initPage, initPageSize])
 
   // 首次自动加载
@@ -89,7 +106,6 @@ export function usePagination<T>(fn: Fn<T>, options?: Options) {
     if (immediate) {
       load()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // 分页变化自动加载（跳过首次渲染）
@@ -101,8 +117,7 @@ export function usePagination<T>(fn: Fn<T>, options?: Options) {
     if (auto) {
       load()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, pageSize])
+  }, [page, pageSize, update, auto])
 
   return {
     // 状态
@@ -118,46 +133,4 @@ export function usePagination<T>(fn: Fn<T>, options?: Options) {
     reset,
     load,
   }
-}
-
-const testFetch = ({
-  page,
-  pageSize,
-}: {
-  page: number
-  pageSize: number
-}): Promise<Global.Response<ListData<{ index: number }>>> => {
-  return new Promise((resolve) => {
-    console.log(page, pageSize)
-    // 模拟异步请求
-    setTimeout(() => {
-      resolve({
-        code: 0,
-        data: {
-          list: [{ index: 1 }],
-          total: 1,
-        },
-        message: 'success',
-      })
-    }, 1000)
-  })
-}
-
-export const UsePaginationExample = () => {
-  const { list } = usePagination<{
-    index: number
-  }>(async (page, pageSize) => {
-    const res = await testFetch({ page, pageSize })
-    return res.data
-  })
-
-  return (
-    <>
-      <ul>
-        {list.map((v) => (
-          <li key={v.index}>{v.index}</li>
-        ))}
-      </ul>
-    </>
-  )
 }

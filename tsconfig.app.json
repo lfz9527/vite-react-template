@@ -80,6 +80,9 @@
       ],
       "@ai/*": [
         "src/ai/*"
+      ],
+      "@example/*": [
+        "src/example/*"
       ]
     }
   },

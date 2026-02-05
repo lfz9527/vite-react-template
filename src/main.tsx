@@ -22,11 +22,17 @@ const root = createRoot(document.getElementById('root')!, {
   identifierPrefix: 'xt',
 })
 
+const isStrictMode = false
+
+export const RootWrap: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return isStrictMode ? <StrictMode>{children}</StrictMode> : <>{children}</>
+}
+
 root.render(
-  <StrictMode>
+  <RootWrap>
     {/* 全局错误捕获 */}
     <ErrorBoundary fallback={(error) => <GlobalCrash error={error} />}>
       <App />
     </ErrorBoundary>
-  </StrictMode>
+  </RootWrap>
 )
