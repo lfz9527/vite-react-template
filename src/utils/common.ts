@@ -23,3 +23,12 @@ export const clipboard = (text: string | number) => {
       })
   })
 }
+
+/**
+ * 接受单个值或数组，并且始终返回数组。
+ * @param i
+ * @returns
+ */
+export function toArray<T = string>(i: T | T[]) {
+  return ([] as T[]).concat(i)
+}

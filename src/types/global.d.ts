@@ -18,4 +18,9 @@ declare namespace Global {
     message?: string
     data: T
   }
+
+  type BasicTarget<T extends TargetType = Element> =
+    | (() => TargetValue<T>)
+    | TargetValue<T>
+    | React.RefObject<TargetValue<T>>
 }

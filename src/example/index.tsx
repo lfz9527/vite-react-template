@@ -10,14 +10,32 @@ import {
   ExampleEnd,
 } from './components/ExampleLayout'
 
+import { useEventListener } from '@/hooks'
+import { useRef } from 'react'
+
 export const TemExample = () => {
+  const btn = useRef<HTMLButtonElement>(null)
+
   const _fetchDemo = async () => {
     const res = await FetchDemo()
     console.log(res.data)
   }
 
+  useEventListener('click', (e) => {
+    console.log(e.target)
+  })
+
   return (
     <>
+      <ExampleLayout title='测试 hooks useEventListener'>
+        <button
+          ref={btn}
+          className='cursor-pointer rounded-md border-1 px-2 py-1 hover:bg-slate-100'
+        >
+          触发点击事件
+        </button>
+      </ExampleLayout>
+      <hr />
       <ExampleLayout title='测试分页管理 usePagination'>
         <UsePaginationExample />
       </ExampleLayout>
