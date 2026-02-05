@@ -33,6 +33,8 @@ export default defineConfig([
     files: ['**/*.{ts,tsx}'],
     extends: [...tseslint.configs.recommended],
     rules: {
+      // 关闭对函数类型的不安全检查，允许使用 Function 类型
+      '@typescript-eslint/no-unsafe-function-type': 'warn',
       // 关闭对 TypeScript 注释的限制，允许使用 '// @ts-ignore' 等注释
       '@typescript-eslint/ban-ts-comment': 'off',
       // 关闭对 any 类型的限制，但在开发中尽量避免使用
