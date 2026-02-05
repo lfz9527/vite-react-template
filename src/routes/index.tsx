@@ -1,4 +1,4 @@
-import { RouteErrorBoundary } from '@/components/ErrorBoundary'
+import { RouteErrorBoundary } from '@components/ErrorBoundary'
 import { buildRoutes, type RouteConfig } from './utils'
 import { lazy } from 'react'
 import { createBrowserRouter } from 'react-router'
@@ -9,11 +9,8 @@ const routes: RouteConfig[] = [
     errorElement: <RouteErrorBoundary />,
     children: [
       {
-        element: lazy(() => import('@/layouts/basicLayout')),
-        middlewares: [
-          lazy(() => import('./middlewares/authMiddleware')),
-          lazy(() => import('./middlewares/authMiddleware1')),
-        ],
+        element: lazy(() => import('@layouts/basic-layout')),
+        middlewares: [lazy(() => import('./middlewares/auth-middleware'))],
         children: [
           {
             path: '/',

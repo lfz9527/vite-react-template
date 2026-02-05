@@ -1,4 +1,4 @@
-import { logger } from './loggerMiddleware'
+import { logger } from './logger-middleware'
 import { create } from 'zustand'
 import { persist, createJSONStorage, devtools } from 'zustand/middleware'
 

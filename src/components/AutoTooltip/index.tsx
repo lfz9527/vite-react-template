@@ -1,14 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 
-interface AutoTooltipTextProps {
+interface AutoTooltipProps {
   text: string
   className?: string
 }
 
-export default function AutoTooltipText({
-  text,
-  className = '',
-}: AutoTooltipTextProps) {
+export function AutoTooltip({ text, className = '' }: AutoTooltipProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [overflow, setOverflow] = useState(false)
 

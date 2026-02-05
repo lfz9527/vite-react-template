@@ -143,7 +143,7 @@ const testFetch = ({
   })
 }
 
-export const usePaginationExample = () => {
+export const UsePaginationExample = () => {
   const { list } = usePagination<{
     index: number
   }>(async (page, pageSize) => {
@@ -151,5 +151,13 @@ export const usePaginationExample = () => {
     return res.data
   })
 
-  return list.map((v) => v.index)
+  return (
+    <>
+      <ul>
+        {list.map((v) => (
+          <li key={v.index}>{v.index}</li>
+        ))}
+      </ul>
+    </>
+  )
 }

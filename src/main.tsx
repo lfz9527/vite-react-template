@@ -3,7 +3,7 @@ import '@/styles/tailwind.css'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import 'virtual:svg-icons-register'
-import { GlobalCrash, ErrorBoundary } from '@/components/ErrorBoundary'
+import { GlobalCrash, ErrorBoundary } from '@components/ErrorBoundary'
 
 const root = createRoot(document.getElementById('root')!, {
   // 捕获 ErrorBoundary 内部的错误

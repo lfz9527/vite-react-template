@@ -1,25 +1,13 @@
-import { router } from './routes'
 import { RouterProvider } from 'react-router'
 
-import { FetchDemo } from './service/api'
+import { router } from './routes'
 
-import { useEffect } from 'react'
+import { TemExample } from './TemExample'
 
 const App = () => {
-  const fetchDemo = async () => {
-    const res = await FetchDemo()
-    console.log(res.data)
-  }
-
-  useEffect(() => {
-    fetchDemo()
-  }, [])
-
   return (
     <>
-      <div className='flex-center py-50'>
-        <h1 className='text-3xl font-bold'>Vite React Template</h1>
-      </div>
+      <TemExample />
       <RouterProvider router={router} />
     </>
   )

@@ -1,4 +1,4 @@
-import LazyImport from '@/components/LazyImport'
+import LazyImport from '@components/LazyImport'
 import {
   type ComponentType,
   type LazyExoticComponent,
