@@ -32,7 +32,7 @@ type ExampleProps = {
 const Example = (props: ExampleProps) => {
   const { title = '测试模板示例', children } = props
   return (
-    <div className='p-2'>
+    <div className='p-3'>
       <h1 className='pb-2 text-2xl font-bold'>{title}</h1>
       <div className='mt-2'>{children}</div>
     </div>
@@ -74,22 +74,17 @@ export const TemExample = () => {
       <hr />
 
       <Example title='测试 AutoTooltip 组件'>
-        <GridLayout cols={3}>
-          <Card title='AutoTooltip 组件'>
+        <GridLayout cols={2}>
+          <Card title='AutoTooltip 组件 默认一行'>
             <AutoTooltip
               text='超长文字，会自动检测是否需要 Tooltip'
               className='w-40 text-sm text-gray-700'
             />
           </Card>
-          <Card title='AutoTooltip 组件'>
+          <Card title='AutoTooltip 组件 多行'>
             <AutoTooltip
-              text='超长文字，会自动检测是否需要 Tooltip'
-              className='w-40 text-sm text-gray-700'
-            />
-          </Card>
-          <Card title='AutoTooltip 组件'>
-            <AutoTooltip
-              text='超长文字，会自动检测是否需要 Tooltip'
+              text='多行超长文字多行超长文字多行超长文字多行超长文字多行超长文字多行超长文字多行超长文字，会自动检测是否需要 Tooltip'
+              lines={3}
               className='w-40 text-sm text-gray-700'
             />
           </Card>

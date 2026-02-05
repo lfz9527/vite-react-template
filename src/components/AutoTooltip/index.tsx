@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 
+import { cn } from '@utils/index'
+import './index.css'
+
 interface AutoTooltipProps {
   text: string
   className?: string
+  lines?: number // 支持的行数，默认为 1
+  style?: React.CSSProperties
 }
 
-export function AutoTooltip({ text, className = '' }: AutoTooltipProps) {
+export function AutoTooltip({
+  text,
+  className = '',
+  lines = 1,
+  style = {},
+}: AutoTooltipProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [overflow, setOverflow] = useState(false)
 
@@ -14,25 +24,34 @@ export function AutoTooltip({ text, className = '' }: AutoTooltipProps) {
     if (!el) return
 
     const checkOverflow = () => {
-      const isOverflow = el.scrollWidth > el.clientWidth
+      let isOverflow = false
+      if (lines === 1) {
+        // 单行：检测水平溢出
+        isOverflow = el.scrollWidth > el.clientWidth
+      } else {
+        // 多行：检测垂直溢出
+        isOverflow = el.scrollHeight > el.clientHeight
+      }
       setOverflow((prev) => (prev !== isOverflow ? isOverflow : prev))
     }
-
-    // 初始化检查
-    checkOverflow()
-
-    // 使用 ResizeObserver → 同步监听宽度变化 + 字体变化 + 内容变化
     const ro = new ResizeObserver(() => checkOverflow())
     ro.observe(el)
 
     return () => ro.disconnect()
-  }, [text])
+  }, [text, lines])
 
   return (
     <div
       ref={ref}
-      className={`truncate ${className}`}
+      className={cn(
+        lines === 1 ? 'truncate' : 'auto-tooltip-line-clamp',
+        className
+      )}
       title={overflow ? text : ''}
+      style={{
+        ...(lines > 1 ? { WebkitLineClamp: lines } : {}),
+        ...style,
+      }}
     >
       {text}
     </div>
