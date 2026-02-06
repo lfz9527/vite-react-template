@@ -22,7 +22,7 @@ const root = createRoot(document.getElementById('root')!, {
   identifierPrefix: 'xt',
 })
 
-const isStrictMode = false
+const isStrictMode = true
 
 export const RootWrap: React.FC<React.PropsWithChildren> = ({ children }) => {
   return isStrictMode ? <StrictMode>{children}</StrictMode> : <>{children}</>

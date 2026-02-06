@@ -5,5 +5,5 @@ export * from './usePagination'
 export * from './useCookie'
 export * from './useEventListener'
 export { default as useEventListener } from './useEventListener'
-
 export * from './useLatest'
+export * from './useCopyToClipboard'
