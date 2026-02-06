@@ -1,4 +1,4 @@
-import { mergeObjects } from './utils'
+import { mergeObjects } from '@utils/index'
 import { type METADATA } from './ui-message'
 import { parseJsonEventStream } from './parse'
 

@@ -4,11 +4,9 @@ import {
   type UIMessagePart,
 } from './ui-message'
 import { ChatError } from './error'
-import {
-  consumeStream,
-  generateId as generateIdFunc,
-  type IdGenerator,
-} from './utils'
+import { consumeStream } from './utils'
+
+import { generateId as generateIdFunc, type IdGenerator } from '@utils/index'
 
 import { SerialJobExecutor, processUIMessageStream } from './process'
 import {
