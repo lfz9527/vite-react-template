@@ -22,6 +22,14 @@ const routes: RouteConfig[] = [
         path: '/login',
         element: lazy(() => import('@/pages/login/index')),
       },
+      {
+        path: '/404',
+        element: lazy(() => import('@/pages/not-found/index')),
+      },
+      {
+        path: '*',
+        element: lazy(() => import('@/pages/not-found/index')),
+      },
     ],
   },
 ]
